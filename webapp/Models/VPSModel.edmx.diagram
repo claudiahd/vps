@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0facb5b2d6c94b0895d4b4d65acfa1f2" Name="Diagram1" ZoomLevel="54">
+        <EntityTypeShape EntityType="VPSModel.Drivers" Width="1.5" PointX="3.75" PointY="8.25" />
+        <EntityTypeShape EntityType="VPSModel.Possessions" Width="1.5" PointX="6" PointY="4.5" />
+        <EntityTypeShape EntityType="VPSModel.PossessionsImages" Width="1.5" PointX="8.25" PointY="5.25" />
+        <EntityTypeShape EntityType="VPSModel.PossessionsIssues" Width="1.5" PointX="8.25" PointY="8.375" />
+        <EntityTypeShape EntityType="VPSModel.Users" Width="1.5" PointX="3.75" PointY="2" />
+        <EntityTypeShape EntityType="VPSModel.Vehicles" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="VPSModel.VehiclesImages" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="VPSModel.VehiclesIssues" Width="1.5" PointX="3" PointY="15.875" />
+        <EntityTypeShape EntityType="VPSModel.V_AvailableVehicles" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VPSModel.V_CurrentPossessions" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VPSModel.V_NoticedVehicles" Width="1.5" PointX="7.75" PointY="0.75" />
+        <AssociationConnector Association="VPSModel.FK_Possessions_Drivers" />
+        <AssociationConnector Association="VPSModel.FK_Possessions_Vehicles" />
+        <AssociationConnector Association="VPSModel.FK_PossessionsBy_User" />
+        <AssociationConnector Association="VPSModel.FK_PossessionsImages_Possessions" />
+        <AssociationConnector Association="VPSModel.FK_PossessionsIssues_Possessions" />
+        <AssociationConnector Association="VPSModel.FK_PossessionsReturnBy_Users" />
+        <AssociationConnector Association="VPSModel.FK_VehiclesImages_Vehicles" />
+        <AssociationConnector Association="VPSModel.FK_VehiclesIssues_Vehicles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

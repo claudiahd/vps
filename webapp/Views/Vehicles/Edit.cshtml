@@ -1,0 +1,145 @@
+﻿@model VPS.Models.DTOs.MyVehicle
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Vehicles</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.VehicleID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegistrationNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RegistrationNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RegistrationNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegistrationExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="date" data-format="yy/mm/dd" name="RegistrationExpiryDate" id="RegistrationExpiryDate" value="@Model.RegistrationExpiryDate.Value.Date" class=" form-control" />
+
+                @*@Html.EditorFor(model => model.RegistrationExpiryDate, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.RegistrationExpiryDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Make, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstODOMeterReading, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstODOMeterReading, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstODOMeterReading, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastODOMeterReading, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastODOMeterReading, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastODOMeterReading, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EngineServiceDueKM, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EngineServiceDueKM, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EngineServiceDueKM, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransmissionServiceDueKM, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransmissionServiceDueKM, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TransmissionServiceDueKM, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.ETagHolder, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.ETagHolder)
+                    @Html.ValidationMessageFor(model => model.ETagHolder, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FootMatts, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.FootMatts)
+                    @Html.ValidationMessageFor(model => model.FootMatts, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("  Back to List", "Index", null, new { @class = "btn btn-primary fa fa-backward" })
+    @Html.ActionLink(" Add New Image", "Create", "VehiclesImages", new { id = @Model.VehicleID }, new { @class = "btn btn-primary fa fa-edit" })
+    @Html.ActionLink(" Add New Issue", "Create", "VehiclesIssues", new { id = @Model.VehicleID }, new { @class = "btn btn-primary fa fa-edit" })
+</div>
+@section pagespecific{
+    <script type="text/javascript">
+
+        // START AND FINISH DATE
+        $('#RegistrationExpiryDate').datepicker({
+            dateFormat: 'YYYY-MM-DD',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>'
+        });
+    </script>
+}

@@ -1,0 +1,79 @@
+﻿@model VPS.Models.VehiclesIssues
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Vehicles Issues</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.VehicleIssueID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.VehicleID, "VehicleID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("VehicleID", null, htmlAttributes: new { @class = "form-control chosen-disabled" })
+                @Html.ValidationMessageFor(model => model.VehicleID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IssueDetails, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IssueDetails, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IssueDetails, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsIssueFixed, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsIssueFixed)
+                    @Html.ValidationMessageFor(model => model.IsIssueFixed, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            @Html.LabelFor(model => model.IssueFixeDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <input type="text" id="IssueFixeDate" name="IssueFixeDate" value=@if(Model!=null){@Model.IssueFixeDate}>
+                    @Html.ValidationMessageFor(model => model.IssueFixeDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "VehiclesIssues", new { id = @Model.VehicleID }, new { @class = "" })
+</div>
+
+@section pagespecific{
+    <script type="text/javascript">
+
+        // START AND FINISH DATE
+        $('#IssueFixeDate').datepicker({
+            dateFormat: 'mm/dd/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>'
+        });
+    </script>
+}

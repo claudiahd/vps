@@ -1,0 +1,67 @@
+﻿@model VPS.Models.VehiclesIssues
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VehiclesIssues</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IssueDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IssueDetails)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+
+        <dd>
+            <img src=@Model.ImagePath alt="image" style="width:100px;" class="img-thumbnail" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssueReportDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IssueReportDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsIssueFixed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsIssueFixed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssueFixeDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IssueFixeDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehicles.RegistrationNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehicles.RegistrationNo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VehicleIssueID }) |
+    @Html.ActionLink("Back to List", "Index", "VehiclesIssues", new { id = @Model.VehicleID }, new { @class = "" })
+</p>

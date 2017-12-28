@@ -1,0 +1,35 @@
+﻿@model IEnumerable<VPS.Models.VehiclesImages>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var vehicleID = @ViewContext.RouteData.Values["id"];
+}
+
+<h2>Vehicle Images</h2>
+
+<p>    
+    @Html.ActionLink("  Add New", "Create", "VehiclesImages", new { id = vehicleID }, new { @class = "btn btn-primary fa fa-plus-circle" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Picture
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <img src=@item.ImagePath alt="image" style="width:100px;" class="img-thumbnail" />
+        </td>        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VehicleImageID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VehicleImageID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VehicleImageID })
+        </td>
+    </tr>
+}
+
+</table>

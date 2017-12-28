@@ -1,0 +1,70 @@
+﻿@model IEnumerable<VPS.Models.VehiclesIssues>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IssueDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageThumbnailPath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IssueReportDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsIssueFixed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IssueFixeDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehicles.RegistrationNo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssueDetails)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImagePath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageThumbnailPath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssueReportDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsIssueFixed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssueFixeDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vehicles.RegistrationNo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VehicleIssueID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VehicleIssueID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VehicleIssueID })
+        </td>
+    </tr>
+}
+
+</table>

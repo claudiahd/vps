@@ -1,0 +1,288 @@
+﻿@model VPS.Models.HomeModle
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- MAIN CONTENT -->
+
+<div id="content">
+    <section id="widget-grid" class="">
+        @Html.AntiForgeryToken()
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <!-- Table Start-->
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+                    <header>
+                        <h2>Active Possessions (@Model.CurrentPossessions.Count)</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="dt_activePossessions" class="table table-striped table-bordered table-hover" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        @*<th data-class="expand">ID</th>*@
+                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Rego</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Vehicle Details</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Driver</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Driver DOB</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> Mobile</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.CurrentPossessions)
+                                    {
+                                        <tr>
+                                            <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.Rego).ToString(), "Details", "Possessions", new { id = item.PossessionID }, new { @class = "" })</td>
+                                            <td>@Html.DisplayFor(modelItem => item.VehicleDetails)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.DriverName)</td>                                            
+                                            <td>
+                                                @if (item.DriverDateOfBirth != null)
+                                                {
+                                                    @item.DriverDateOfBirth.Date.ToShortDateString()
+                                                }
+                                            </td>
+                                            
+                                            <td>@Html.DisplayFor(modelItem => item.MobileNo)</td>
+                                            <td>
+                                                @if (item.Date != null)
+                                                {
+                                                    @item.Date.GetValueOrDefault().ToShortDateString()
+                                                }
+                                            </td>
+                                            <td>@Html.DisplayFor(modelItem => item.Time)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+                <!-- Table END-->
+                <!-- Table Start-->
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                    <header>
+                        <h2>Available Vehicles (@Model.AvailableVehicles.Count)</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="dt_availableVehicles" class="table table-striped table-bordered" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        @*<th data-class="expand">ID</th>*@
+                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Rego</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i>  Make</th>
+                                        <th data-class="expand">Model</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Year</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.AvailableVehicles)
+                                    {
+                                        <tr>
+                                            @*<td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.VehicleID).ToString(), "Details", "Vehicles", new { id = item.VehicleID }, new { @class = "" })</td>*@
+                                            <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.RegistrationNo).ToString(), "Details", "Vehicles", new { id = item.VehicleID }, new { @class = "" })</td>
+                                            @*<td>@Html.DisplayFor(model => item.RegistrationNo)</td>*@
+                                            <td>@Html.DisplayFor(model => item.Make)</td>
+                                            <td>@Html.DisplayFor(model => item.Model)</td>
+                                            <td>@Html.DisplayFor(model => item.Year)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+                <!-- Table END-->
+                <!-- Table Start-->
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-editbutton="false">
+                    <header>
+                        <h2>Returning Vehicles (@Model.NoticedVehicles.Count)</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="dt_returningVehicles" class="table table-striped table-bordered" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th data-class="expand">Possession Id</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Rego</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Driver</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> Mobile</th>
+                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Notice Date</th>
+                                        <th data-class="expand">Notice Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.NoticedVehicles)
+                                    {
+                                        <tr>
+                                            <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.PossessionID).ToString(), "Details", "Possessions", new { id = item.PossessionID }, new { @class = "" })</td>
+                                            <td>@Html.DisplayFor(model => item.RegistrationNo)</td>
+                                            <td>@Html.DisplayFor(model => item.DriverName)</td>
+                                            <td>@Html.DisplayFor(model => item.MobileNo)</td>
+                                            <td>@Html.DisplayFor(model => item.NoticeDate)</td>
+                                            <td>@Html.DisplayFor(model => item.NoticeRemarks)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+                <!-- Table END-->
+            </article>
+        </div>
+    </section>
+</div>
+
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+    <script type="text/javascript">
+
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+        $(document).ready(function () {
+
+            /* // DOM Position key index //
+
+            l - Length changing (dropdown)
+            f - Filtering input (search)
+            t - The Table! (datatable)
+            i - Information (records)
+            p - Pagination (paging)
+            r - pRocessing
+            < and > - div elements
+            <"#id" and > - div with an id
+            <"class" and > - div with a class
+            <"#id.class" and > - div with an id and class
+
+            Also see: http://legacy.datatables.net/usage/features
+            */
+
+            /* BASIC ;*/
+            var responsiveHelper_dt_activePossessions = undefined;
+            var responsiveHelper_dt_availableVehicles = undefined;
+            var responsiveHelper_dt_returningVehicles = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            /* Start Active Possessions*/
+            $('#dt_activePossessions').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth": true,
+                "ordering": false,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_activePossessions) {
+                        responsiveHelper_dt_activePossessions = new ResponsiveDatatablesHelper($('#dt_activePossessions'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_dt_activePossessions.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_dt_activePossessions.respond();
+                }
+            });
+
+            /* END Available Vehicles */
+
+
+            /* Start Active Possessions*/
+            $('#dt_availableVehicles').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_availableVehicles) {
+                        responsiveHelper_dt_availableVehicles = new ResponsiveDatatablesHelper($('#dt_availableVehicles'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_dt_availableVehicles.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_dt_availableVehicles.respond();
+                }
+            });
+
+            /* END Available Vehicles */
+
+
+            /* Start Returning Vehicles */
+            $('#dt_returningVehicles').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth": true,
+                "ordering": false,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_returningVehicles) {
+                        responsiveHelper_dt_returningVehicles = new ResponsiveDatatablesHelper($('#dt_returningVehicles'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_dt_returningVehicles.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_dt_returningVehicles.respond();
+                }
+            });
+
+            /* END Return Vehicles */
+        })
+
+    </script>
+}
+

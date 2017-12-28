@@ -1,0 +1,139 @@
+﻿@model VPS.Models.DTOs.MyPossession
+
+@{
+    ViewBag.Title = "AddNotice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="well">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal client-form smart-form">
+                    <header>
+                        Add Possessions Notice
+                    </header>
+                    <div class="row">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div >
+
+                            @Html.HiddenFor(model => Model.PossessionID)
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <table class="table table-striped table-hover" style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="txt-color-blue">Registration: </td>
+                                            <td>@Model.RegistrationNo</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Possession Date: </td>
+                                            <td>@Model.PossessionDate.ToShortDateString() </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Possession Time:</td>
+                                            <td>@Model.PossessionTime</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">ODOMeter Possission Time: </td>
+                                            <td>@Model.ODOMeterPossissionTime (KM)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Cleanliness Possission Time: </td>
+                                            <td>
+                                                @if (Model.CleanlinessPossissionTime)
+                                                {
+                                                    <span>Yes</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>No</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Service Due - Engine: </td>
+                                            <td>@Model.EngineServiceDuePossissionTime (KM)</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="txt-color-blue">Service Due - Transmission: </td>
+                                            <td>@Model.TransmissionServiceDuePossissionTime (KM)</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="txt-color-blue">Driver Name: </td>
+                                            <td>@Model.DriversName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Possession Through: </td>
+                                            <td>@Model.PossessionByName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Notice Date (if any): </td>
+                                            <td>
+                                                @if (@Model.NoticeDateReturn.HasValue)
+                                                {
+                                                    @Model.NoticeDateReturn.Value.ToShortDateString();
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Notice Remarks (if any): </td>
+                                            <td>@Model.NoticeRemarks</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div>
+
+
+                            <section>
+                                @Html.LabelFor(model => model.NoticeDateReturn, htmlAttributes: new { @class = "label" })
+                                <label class="input">
+                                    <i class="icon-append fa fa-calendar"></i>
+                                    <input type="text" data-format="dd/mm/yy" name="NoticeDateReturn" id="ReturnDateTime" required="" value="">
+                                    @Html.ValidationMessageFor(model => model.NoticeDateReturn, "", new { @class = "text-danger" })
+                                </label>
+                            </section>                                                      
+
+                            <section class="clearfix">
+                                <label class="label col-sm-12">@Html.LabelFor(model => model.NoticeRemarks) </label>
+                                <label class="input col-sm-12">
+                                    <i class="icon-append fa fa-user"></i>
+                                    <input type="text" name="NoticeRemarks" id="NoticeRemarks" class="input col-sm-12" value="@Model.NoticeRemarks">                                    
+                                    @Html.ValidationMessageFor(model => model.NoticeRemarks, "", new { @class = "text-danger" })
+
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </div>
+                <div class="row">
+                    <footer>
+                        
+                        @Html.ActionLink(" Back to List", "Index", null, null, new { @class = "txt-color-white btn btn-danger btn-lg fa fa-backward" })
+                        <button class="txt-color-white btn btn-success btn-lg fa fa-edit" type="submit" value="Add Notice" name="Return"> Add Notice</button>                        
+                    </footer>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+@section pagespecific{
+    <script type="text/javascript">
+
+        // START AND FINISH DATE
+        $('#ReturnDateTime').datepicker({
+            dateFormat: 'dd/mm/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>'
+        });      
+    </script>
+}

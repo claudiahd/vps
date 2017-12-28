@@ -1,0 +1,308 @@
+﻿@model VPS.Models.DTOs.MyPossession
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Possessions Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PossessionDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PossessionDate)            
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PossessionTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PossessionTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ODOMeterPossissionTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODOMeterPossissionTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ETagHolderPossissionTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ETagHolderPossissionTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FootMattsPossissionTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FootMattsPossissionTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CleanlinessPossissionTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CleanlinessPossissionTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineServiceDuePossissionTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngineServiceDuePossissionTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransmissionServiceDuePossissionTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransmissionServiceDuePossissionTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoticeDateReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoticeDateReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoticeRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoticeRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ODOMeterReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODOMeterReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ETagHolderReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ETagHolderReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FootMattsReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FootMattsReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CleanlinessReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CleanlinessReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineServiceDueReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngineServiceDueReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransmissionServiceDueReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransmissionServiceDueReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Feedback)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Feedback)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsReturn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsReturn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DriversName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DriversName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PossessionByName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PossessionByName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnByName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnByName)
+        </dd>
+
+    </dl>
+
+    <h4>Possessions Issues</h4>
+
+    <table class="table">
+        <tr>
+            <th>
+                ID
+            <th>
+                Details
+            </th>
+            @*<th>
+                    Possession Time
+                </th>
+                <th>
+                    Return Time
+                </th>*@
+            <th>
+                Image
+            </th>
+        </tr>
+
+        @foreach (var item in Model.PossessionsIssues)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PossessionIssueID)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.IssueDetails)
+            </td>
+
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.IsPossessionTimeIssue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsReturnTimeIssue)
+                </td>*@
+            <td>
+                <img src=@item.ImagePath alt="image" style="width:100px;" class="img-thumbnail" />
+            </td>
+        </tr>
+        }
+
+    </table>
+
+
+    <!-- Driver Signature Modal -->
+    <div class="row">
+        <div class="col-md-5" style="margin-left: 15px;">
+            <div class="sigPad" id="driverSinature" style="width:404px;">
+                <h2>Driver signature</h2>
+                <ul class="sigNav">
+                    <li class="drawIt"><a href="#draw-it">Draw It</a></li>
+                    <li class="clearButton"><a href="#clear">Clear</a></li>
+                </ul>
+                <div class="sig sigWrapper" style="height:auto;">
+                    <div class="typed"></div>
+                    <canvas class="pad" width="400" height="250"></canvas>
+                    <input type="hidden" name="driver_signature" id="driver_signature" class="output">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contractor Signature Modal -->
+    <div class="row">
+        <div class="col-md-5" style="margin-left: 15px;">
+            <div class="sigPad" id="contratctoSignature" style="width:404px;">
+                <h2>Contractor signature</h2>
+                <ul class="sigNav">
+                    <li class="drawIt"><a href="#draw-it">Draw It</a></li>
+                    <li class="clearButton"><a href="#clear">Clear</a></li>
+                </ul>
+                <div class="sig sigWrapper" style="height:auto;">
+                    <div class="typed"></div>
+                    <canvas class="pad" width="400" height="250"></canvas>
+                    <input type="hidden" name="contractor_signature" id="contractor_signature" class="output">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+<link href="~/Content/signature/jquery.signaturepad.css" rel="stylesheet">
+<script src="~/Content/signature/numeric-1.2.6.min.js"></script>
+<script src="~/Content/signature/bezier.js"></script>
+<script src="~/Content/signature/jquery.signaturepad.js"></script>
+<script src="~/Content/signature/json2.min.js"></script>
+
+
+<script type="text/javascript">
+
+    var driverSig = @(Model.DriverSignature);
+    var contractorSig = @(Model.ContractorSignature);
+
+    $('#driverSinature').signaturePad({ displayOnly: true }).regenerate(driverSig);
+    $('#contratctoSignature').signaturePad({ displayOnly: true }).regenerate(contractorSig)
+
+</script>

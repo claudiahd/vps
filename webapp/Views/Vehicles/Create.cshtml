@@ -1,0 +1,190 @@
+﻿@model VPS.Models.DTOs.MyVehicle
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="content" class="container">
+
+    <div class="row">
+        <div class="well no-padding">
+
+            <form action="@Url.Action("Create", "Vehicles")" method="POST" id="myForm" name="myForm" class="smart-form client-form">
+
+                @Html.AntiForgeryToken()
+
+                <header>
+                    Add New Vehicle
+                </header>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationBootstrap()
+                <div class="col-xs-12">
+
+                    <fieldset>
+                        <section class="clearfix">
+                            @Html.LabelFor(model => model.RegistrationNo, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="RegistrationNo" value=@if(Model!=null){@Model.RegistrationNo}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Registration No</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.RegistrationExpiryDate, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <i class="icon-append fa fa-calendar"></i>
+                                <input type="text" id="RegistrationExpiryDate" name="RegistrationExpiryDate" value=@if (Model != null && Model.RegistrationExpiryDate.HasValue)
+                                                                                                                   {@Model.RegistrationExpiryDate.Value.ToShortDateString()}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Registration Expiry date</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="Model" value=@if(Model!=null){@Model.Model}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Model</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.Make, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="Make" value=@if(Model!=null){@Model.Make}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Vehicle Make</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="Color" value=@if(Model!=null){@Model.Color}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Colour</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="number" name="Year" value=@if(Model!=null){@Model.Year}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Model year</b>
+                            </label>
+                        </section>
+
+                        @*<section>
+                            @Html.LabelFor(model => model.FirstODOMeterReading, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="FirstODOMeterReading" value=@if(Model!=null){@Model.FirstODOMeterReading}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter first OdoMeter reading</b>
+                            </label>
+                        </section>*@
+
+                        <section>
+                            @Html.LabelFor(model => model.LastODOMeterReading, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="number" required="" name="LastODOMeterReading" value=@if(Model!=null){@Model.LastODOMeterReading}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Last OdoMeter Reading</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.EngineServiceDueKM, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="EngineServiceDueKM" value=@if(Model!=null){@Model.EngineServiceDueKM}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Engine service due KM</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.TransmissionServiceDueKM, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="TransmissionServiceDueKM" value=@if(Model!=null){@Model.TransmissionServiceDueKM}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Transmission Service Due KM</b>
+                            </label>
+                        </section>                        
+
+                        @*<section>
+                            @Html.LabelFor(model => model.ETagHolder, htmlAttributes: new { @class = "lable" })
+                            <label class="">
+                                @Html.EditorFor(model => model.ETagHolder)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set ETagHolder status</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.FootMatts, htmlAttributes: new { @class = "lable" })
+                            <label class="">
+                                @Html.EditorFor(model => model.FootMatts)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set Foot Matts status</b>
+                            </label>
+                        </section>*@
+
+                        <footer>
+
+                            <i>
+                                @Html.ActionLink(" Back to List", "Index", null, new { @class = "fa fa-backward" })
+                            </i>
+
+                            <button type="submit" class="btn btn-primary">
+                                Add
+                            </button>
+
+                        </footer>
+                    </fieldset>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+@section pagespecific{
+    <script type="text/javascript">
+
+        // START AND FINISH DATE
+        $('#RegistrationExpiryDate').datepicker({
+            dateFormat: 'dd/mm/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>'
+        });
+    </script>
+    
+
+
+<script type="text/javascript">
+    $(function () {
+        // Validation
+        $("#myForm").validate({
+            // Rules for form validation
+            rules: {
+                RegistrationExpiryDate: {
+                    required: true
+                },
+                RegistrationNo: {
+                    required: true
+                },
+                Model: {
+                    required: true
+                },
+                
+            },
+
+            // Messages for form validation
+            messages: {
+                RegistrationExpiryDate: {
+                    required: 'Please enter date'
+                },
+                RegistrationNo: {
+                    required: 'Please enter Rego'
+                }
+            },
+
+            // Do not change code below
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+    });
+</script>
+
+}

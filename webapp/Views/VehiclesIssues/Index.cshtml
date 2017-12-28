@@ -1,0 +1,68 @@
+﻿@model IEnumerable<VPS.Models.VehiclesIssues>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var vehicleID = @ViewContext.RouteData.Values["id"];
+}
+
+<h2>Vehicle Issues</h2>
+
+<p>
+    @Html.ActionLink("  Add New", "Create", "VehiclesIssues", new { id = vehicleID }, new { @class = "btn btn-primary fa fa-plus-circle" })
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Detail
+        </th>
+        <th>
+            Picture
+        </th>
+        <th>
+            Report Date
+        </th>
+
+        <th>
+            Fix Status
+        </th>
+        <th>
+            Fix Date
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssueDetails)
+            </td>
+            <td>
+                <img src=@item.ImagePath alt="image" style="width:100px;" class="img-thumbnail" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssueReportDate)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.IsIssueFixed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssueFixeDate)
+            </td>
+            <td>
+                @Html.ActionLink(" Edit", "Edit", new { id = item.VehicleIssueID }, new { @class = "btn btn-primary btn-xs fa fa-edit" }) |
+                @Html.ActionLink(" Details", "Details", new { id = item.VehicleIssueID }, new { @class = "btn btn-primary btn-xs fa fa-info-circle" }) |
+                @Html.ActionLink(" Delete", "Delete", new { id = item.VehicleIssueID }, new { @class = "btn btn-primary btn-xs fa fa-times" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<i>
+    @Html.ActionLink(" Back to Vehicle List", "Index", "Vehicles", null, new { @class = "fa fa-backward" })
+</i>

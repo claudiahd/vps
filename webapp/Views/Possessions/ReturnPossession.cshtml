@@ -1,0 +1,229 @@
+﻿@model VPS.Models.DTOs.MyPossession
+
+@{
+    ViewBag.Title = "ReturnPossession";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="well">
+            @*<form method="POST" id="myForm" name="myForm" class="smart-form client-form">*@
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal client-form smart-form">
+                    <header>
+                        Possessions Return
+                    </header>
+                    <div class="row">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => Model.PossessionID)
+                        @if (@Model != null)
+                        {
+                            <section>
+                                <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                    <table class="table table-striped table-hover" style="width: 100%;">
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Possession Details</strong></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Registration: </td>
+                                                <td>@Model.RegistrationNo</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Possession Date: </td>
+                                                <td>@Model.PossessionDate.ToShortDateString() </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Possession Time:</td>
+                                                <td>@Model.PossessionTime</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">ODOMeter Possission Time: </td>
+                                                <td>@Model.ODOMeterPossissionTime (KM)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Cleanliness Possission Time: </td>
+                                                <td>
+                                                    @if (Model.CleanlinessPossissionTime)
+                                                    {
+                                                        <span>Yes</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Service Due - Engine: </td>
+                                                <td>@Model.EngineServiceDuePossissionTime (KM)</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="txt-color-blue">Service Due - Transmission: </td>
+                                                <td>@Model.TransmissionServiceDuePossissionTime (KM)</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="txt-color-blue">Driver Name: </td>
+                                                <td>@Model.DriversName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Possession Through: </td>
+                                                <td>@Model.PossessionByName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Notice Date (if any): </td>
+                                                <td>
+                                                    @if (@Model.NoticeDateReturn.HasValue)
+                                                    {
+                                                        @Model.NoticeDateReturn.Value.ToShortDateString()
+                                                        ;
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Notice Remarks (if any): </td>
+                                                <td>@Model.NoticeRemarks</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <hr>
+                                </div>
+                            </section>
+                        }
+                    </div>
+                    <div class="row">
+                        <section>
+                            <section>
+                                <span>Return Date</span>
+                                <label class="input">
+                                    <i class="icon-append fa fa-calendar"></i>
+                                    <input type="text" data-format="dd/mm/yy" name="ReturnDate" id="ReturnDate" required="">
+                                    @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                                </label>
+                            </section>
+
+                            <section class="clearfix">
+                                <label class="label col-sm-12">Return Time (HH:MM e.g. 10:15)</label>
+                                <label class="input col-sm-12">
+                                    <i class="icon-append fa fa-calendar"></i>
+                                    <input type="time" name="returnTime" id="returnTime" value="" required="">
+                                </label>
+                            </section>
+
+                            <section class="clearfix">
+                                <label class="label col-sm-12">@Html.LabelFor(model => model.ODOMeterReturn) </label>
+                                <label class="input col-sm-12">
+                                    <i class="icon-append fa fa-user"></i>
+                                    <input type="number" name="ODOMeterReturn" id="ODOMeterReturn" value="" required="">
+                                    @Html.ValidationMessageFor(model => model.ODOMeterReturn, "", new { @class = "text-danger" })
+
+                                </label>
+                            </section>
+
+
+                            <section>
+                                @Html.LabelFor(model => model.ETagHolderReturn, htmlAttributes: new { @class = "lable" })
+                                <label class="">
+                                    @Html.EditorFor(model => model.ETagHolderReturn)
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set ETagHolder status</b>
+                                </label>
+                            </section>
+
+                            <section>
+                                @Html.LabelFor(model => model.FootMattsReturn, htmlAttributes: new { @class = "lable" })
+                                <label class="">
+                                    @Html.EditorFor(model => model.FootMattsReturn)
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set Foot Matts status</b>
+                                </label>
+                            </section>
+
+                            <section>
+                                @Html.LabelFor(model => model.CleanlinessReturn, htmlAttributes: new { @class = "lable" })
+                                <label class="">
+                                    @Html.EditorFor(model => model.CleanlinessReturn)
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set Cleanliness status</b>
+                                </label>
+                            </section>
+
+                            <section class="clearfix">
+                                <label class="label col-sm-12">@Html.LabelFor(model => model.Feedback) </label>
+                                <label class="input col-sm-12">
+                                    <i class="icon-append fa fa-user"></i>
+                                    @Html.EditorFor(model => model.Feedback, new { htmlAttributes = new { @class = "input col-sm-12" } })
+                                    @Html.ValidationMessageFor(model => model.Feedback, "", new { @class = "text-danger" })
+
+                                </label>
+                            </section>
+                        </section>
+                    </div>
+                    <!-- Modal -->
+                </div>
+                <div class="row">
+                    <footer>
+                        @Html.ActionLink(" Back to List", "Index", null, null, new { @class = "txt-color-white btn btn-danger btn-lg fa fa-backward" })
+                        <button class="txt-color-white btn btn-success btn-lg fa fa-edit" type="submit" value="Add Return" name="Return"> Add Return</button>
+                    </footer>
+                </div>
+                @*</form>*@
+            }
+        </div>
+    </div>
+
+</div>
+
+@section pagespecific{
+    <script type="text/javascript">
+
+        // START AND FINISH DATE
+        $('#ReturnDate').datepicker({
+            dateFormat: 'dd/mm/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>'
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            // Validation
+            $("#myForm").validate({
+                // Rules for form validation
+                rules: {
+                    ReturnDate: {
+                        required: true
+                    },
+                    ODOMeterReturn: {
+                        required: true
+                    },
+                    returnTime: {
+                        required: true
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    ReturnDate: {
+                        required: 'Please enter date'
+                    },
+                    ODOMeterReturn: {
+                        required: 'Please enter ODO meter'
+                    },
+                    returnTime: {
+                        required: 'Please enter time'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        });
+    </script>
+}

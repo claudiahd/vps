@@ -1,0 +1,102 @@
+﻿    <!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+<aside id="left-panel">
+
+    <!-- User info -->
+    @{
+        Html.RenderPartial("_CurrentUser");
+
+        string userTypeId = "";
+        if (Request.Cookies["UserTypeID"] != null)
+        {
+            userTypeId = Request.Cookies["UserTypeID"].Value;
+        }
+    }
+    <!-- end user info -->
+    <!-- NAVIGATION : This navigation is also responsive
+
+    To make this navigation dynamic please make sure to link the node
+    (the reference to the nav > ul) after page load. Or the navigation
+    will not initialize.
+    -->
+    <nav>
+        <!-- NOTE: Notice the gaps after each icon usage <i></i>..
+        Please note that these links work a bit different than
+        traditional href="" links. See documentation for details.
+        -->
+
+        <ul>
+            <li class="@Html.RouteIf("index", "active")">
+                <a href="#" title="Home"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Home</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("index", "active")">
+                        <a href="@Url.Action("index", "home")" title="Dashboard"><span class="menu-item-parent">Home</span></a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("appviews", "active")">
+                <a href="#"><i class="fa fa-lg fa-fw fa-pencil fa-2x"></i> <span class="menu-item-parent"> Possession</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("Index", "active")">
+                        <a href="@Url.Action("Index", "Possessions")"><i class="fa fa-pencil fa-2x"></i> All Possessions</a>
+                    </li>
+
+                    <li class="@Html.RouteIf("Create", "active")">
+                        <a href="@Url.Action("Create", "Possessions")"><i class="fa fa-pencil fa-2x"></i> Add Possession</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("appviews", "active")">
+                <a href="#"><i class="fa fa-lg fa-fw fa-male fa-2x"></i> <span class="menu-item-parent"> Drivers</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("Index", "active")">
+                        <a href="@Url.Action("Index", "Drivers")"><i class="fa fa-male"></i> All Drivers</a>
+                    </li>
+
+                    <li class="@Html.RouteIf("Create", "active")">
+                        <a href="@Url.Action("Create", "Drivers")"><i class="fa fa-male"></i> Add Driver</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("appviews", "active")">
+                <a href="#"><i class="fa fa-lg fa-fw fa fa-taxi fa-2x"></i> <span class="menu-item-parent"> Vehicles</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("Index", "active")">
+                        <a href="@Url.Action("Index", "Vehicles")"><i class="fa fa-taxi fa-2x"></i> All Vehicles</a>
+                    </li>
+                    @if (userTypeId.ToString() != "3")
+                    {
+                        <li class="@Html.RouteIf("Create", "active")">
+                            <a href="@Url.Action("Create", "Vehicles")"><i class="fa fa-taxi fa-2x"></i> Add Vehicle</a>
+                        </li>
+                    }
+                </ul>
+            </li>
+
+            @if (userTypeId.ToString() == "1")
+            {
+                <li class="@Html.RouteIf("appviews", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw fa fa-user  fa-2x"></i> <span class="menu-item-parent"> Users</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("Index", "active")">
+                            <a href="@Url.Action("Index", "Users")"><i class="fa fa-user fa-2x"></i> All Users</a>
+                        </li>
+
+                        <li class="@Html.RouteIf("Create", "active")">
+                            <a href="@Url.Action("Create", "Users")"><i class="fa fa-user fa-2x"></i> Add User</a>
+                        </li>
+                    </ul>
+                </li>
+            }
+        </ul>
+    </nav>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+
+</aside>
+<!-- END NAVIGATION -->

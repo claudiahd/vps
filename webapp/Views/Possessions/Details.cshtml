@@ -1,0 +1,352 @@
+﻿@model VPS.Models.DTOs.MyPossession
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="content">
+    <!-- row -->
+    <div class="row">
+
+        <!-- col -->
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+
+                <!-- PAGE HEADER -->
+                <i class="fa-fw fa fa-home"></i>
+                Possession
+                <span>
+                    &gt;
+                    Details
+                </span>
+            </h1>
+        </div>
+        <!-- end col -->
+        <!-- right side of the page with the sparkline graphs -->
+        <!-- col -->
+    </div>
+    <!-- end row -->
+    <!--
+    The ID "widget-grid" will start to initialize all widgets below
+    You do not need to use widgets if you dont want to. Simply remove
+    the <section></section> and you can use wells or panels instead
+    -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <div class="col-xs-12 text-left margin-left-5">                
+                @Html.ActionLink(" Back to List", "Index", null, null, new { @class = "txt-color-white btn btn-danger btn-lg fa fa-backward" })
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <!-- product -->
+                <div class="product-content product-wrap clearfix product-deatil">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12 ">
+                            <table class="table table-striped bordered table-hover" style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td class="txt-color-blue">Registration: </td>
+                                        <td>@Model.RegistrationNo</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Possession Date: </td>
+                                        <td>@Model.PossessionDate.ToShortDateString() </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Possession Time:</td>
+                                        <td>@Model.PossessionTime</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">ODOMeter Possission Time: </td>
+                                        <td>@Model.ODOMeterPossissionTime (KM)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Cleanliness Possission Time: </td>
+                                        <td>
+                                            @if (Model.CleanlinessPossissionTime)
+                                            {
+                                                <span>Yes</span>
+                                            }
+                                            else
+                                            {
+                                                <span>No</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Service Due - Engine: </td>
+                                        <td>@Model.EngineServiceDuePossissionTime (KM)</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="txt-color-blue">Service Due - Transmission: </td>
+                                        <td>@Model.TransmissionServiceDuePossissionTime (KM)</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="txt-color-blue">Driver Name: </td>
+                                        <td>@Model.DriversName</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Possession Through: </td>
+                                        <td>@Model.PossessionByName</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Notice Date (if any): </td>
+                                        <td>
+                                            @if (@Model.NoticeDateReturn.HasValue)
+                                            {
+                                                @Model.NoticeDateReturn.Value.ToShortDateString();
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Notice Remarks (if any): </td>
+                                        <td>@Model.NoticeRemarks</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                        </div>
+                        @if (@Model.IsReturn)
+                        {
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                @*<span>Possession Return Details</span>*@
+                                <table class="table table-striped bordered table-hover" style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Return Details</strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Return Date: </td>
+                                            <td>@Model.ReturnDate.Value.ToShortDateString()</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="txt-color-blue">Return Time: </td>
+                                            <td>@Model.ReturnTime</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="txt-color-blue">ODOMeter Return Time: </td>
+                                            <td>@Model.ODOMeterReturn (KM)</td>
+                                        </tr>
+
+                                        <tr>
+
+                                            <td class="txt-color-blue">Cleanliness Return Time: </td>
+                                            <td>
+                                                @if (Model.CleanlinessReturn)
+                                                {
+                                                    <span>Yes</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>No</span>
+                                                }
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="txt-color-blue">Is Engine Service Due Return Time: </td>
+                                            <td>
+                                                @if (Model.EngineServiceDueReturn)
+                                                {
+                                                    <span>Yes</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>No</span>
+                                                }
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="txt-color-blue">Transmission Service Due Return Time: </td>
+                                            <td>
+                                                @if (Model.TransmissionServiceDueReturn)
+                                                {
+                                                    <span>Yes</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>No</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Possession Return Through: </td>
+                                            <td>@Model.ReturnByName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-color-blue">Feedback: </td>
+                                            <td>@Model.Feedback</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="col-md-5 col-sm-12 col-xs-12 ">
+                                <div class="description description-tabs">
+                                    <ul id="myTab2" class="nav nav-pills">
+                                        <li class="active"><a href="#pImages" data-toggle="tab" class="no-margin">Possession Images</a></li>
+                                        <li class=""><a href="#pIssues" data-toggle="tab">Possession Issues</a></li>
+                                    </ul>
+                                    <div id="myTabContent2" class="tab-content">
+                                        <div class="tab-pane fade active in" id="pImages">
+                                            <div class="product-image">
+                                                <div id="myCarousel-2" class="carousel slide">
+                                                    <ol class="carousel-indicators">
+                                                        @for (int i = 0; i < Model.PossessionsImages.Count; i++)
+                                                        {
+                                                            <li data-target="#myCarousel-2" data-slide-to=@i class=""></li>
+                                                        }
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        @if (@Model.PossessionsImages.Count > 0)
+                                                        {
+                                                            foreach (var item in Model.PossessionsImages)
+                                                            {
+                                                                if (Model.PossessionsImages.FirstOrDefault() == item)
+                                                                {
+                                                                    <div class="item active">
+                                                                        <img src=@item.PossessionTimeImagePath alt="">
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="item">
+                                                                        <img src=@item.PossessionTimeImagePath alt="">
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="item active">
+                                                                <img src="/Content/img/noImage.jpg" alt="">
+                                                            </div>
+                                                        }
+                                                        <span> </span>
+
+                                                    </div>
+                                                    <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+                                                    <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade in" id="pIssues">
+                                            <div class="product-image">
+                                                <div id="myCarousel-3" class="carousel slide">
+                                                    <ol class="carousel-indicators">
+                                                        @for (int i = 0; i < Model.PossessionsIssues.Count; i++)
+                                                        {
+                                                            <li data-target="#myCarousel-3" data-slide-to=@i class=""></li>
+                                                        }
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        @if (@Model.PossessionsIssues.Count > 0)
+                                                        {
+                                                            foreach (var item in Model.PossessionsIssues)
+                                                            {
+                                                                if (Model.PossessionsIssues.FirstOrDefault() == item)
+                                                                {
+                                                                    <div class="item active">
+                                                                        <img src=@item.ImagePath alt="">
+                                                                        <span>@item.IssueDetails </span>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="item">
+                                                                        <img src=@item.ImagePath alt="">
+                                                                        <span>@item.IssueDetails </span>
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="item active">
+                                                                <img src="/Content/img/noImage.jpg" alt="">
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <a class="left carousel-control" href="#myCarousel-3" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+                                                    <a class="right carousel-control" href="#myCarousel-3" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Driver Signature Modal -->
+                        <div class="row">
+                            <div class="col-md-5" style="margin-left: 15px;">
+                                <div class="sigPad" id="driverSinature" style="width: 404px;">
+                                    <h2>Driver signature</h2>
+                                    <ul class="sigNav">
+                                        <li class="drawIt"><a href="#draw-it">Draw It</a></li>
+                                        <li class="clearButton"><a href="#clear">Clear</a></li>
+                                    </ul>
+                                    <div class="sig sigWrapper" style="height: auto;">
+                                        <div class="typed"></div>
+                                        <canvas class="pad" width="400" height="250"></canvas>
+                                        <input type="hidden" name="driver_signature" id="driver_signature" class="output">
+                                    </div>
+                                </div>
+                            </div>
+                        @*</div>*@
+
+                        <!-- Contractor Signature Modal -->
+                        @*<div class="row">*@
+                            <div class="col-md-5" style="margin-left: 15px;">
+                                <div class="sigPad" id="contratctoSignature" style="width: 404px;">
+                                    <h2>Contractor signature</h2>
+                                    <ul class="sigNav">
+                                        <li class="drawIt"><a href="#draw-it">Draw It</a></li>
+                                        <li class="clearButton"><a href="#clear">Clear</a></li>
+                                    </ul>
+                                    <div class="sig sigWrapper" style="height: auto;">
+                                        <div class="typed"></div>
+                                        <canvas class="pad" width="400" height="250"></canvas>
+                                        <input type="hidden" name="contractor_signature" id="contractor_signature" class="output">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end product -->
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+
+<link href="~/Content/signature/jquery.signaturepad.css" rel="stylesheet">
+<script src="~/Content/signature/numeric-1.2.6.min.js"></script>
+<script src="~/Content/signature/bezier.js"></script>
+<script src="~/Content/signature/jquery.signaturepad.js"></script>
+<script src="~/Content/signature/json2.min.js"></script>
+
+<script type="text/javascript">
+
+    var driverSig = @(Model.DriverSignature);
+    var contractorSig = @(Model.ContractorSignature);
+
+    $('#driverSinature').signaturePad({ displayOnly: true }).regenerate(driverSig);
+    $('#contratctoSignature').signaturePad({ displayOnly: true }).regenerate(contractorSig)
+
+</script>

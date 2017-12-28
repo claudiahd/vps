@@ -1,0 +1,39 @@
+﻿@model VPS.Models.VehiclesIssues
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+@*@using (@html.BeginForm())*@
+@using (Ajax.BeginForm("Create", null, new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <h4>Add Vehicle Issue</h4>
+   
+    <div class="form-group">
+
+        <input type="text" value=@Model.VehicleID hidden="" name="VehicleID" id="VehicleID">
+    </div>
+
+    <div class="form-group">
+        <span class="control-label col-md-2">Issue Detail</span>
+        <input type="text" value="" name="IssueDetails" id="IssueDetails" class="form-control">
+        @Html.ValidationMessageFor(model => model.IssueDetails, "", new { @class = "text-danger" })
+         
+    </div>
+    <div class="form-group">
+        <span class="control-label col-md-2">Select Image</span>
+        <input id="ImagePath" title="Upload a issue image" type="file" name="file" />
+    </div>
+    
+    <div class="form-group">
+         <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "VehiclesIssues", new { id = @ViewContext.RouteData.Values["id"] }, new { @class = "" })
+</div>

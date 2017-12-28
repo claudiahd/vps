@@ -1,0 +1,797 @@
+﻿@model VPS.Models.DTOs.MyPossession
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="content" class="container">
+    <div class="row">
+        <div class="well no-padding1">
+
+            <form method="POST" id="myForm" name="myForm" class="smart-form client-form">
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal client-form smart-form">
+                    <header>
+                        This rental agreement forms Terms and conditions of the Rental between Mir Fleet and the RENTER named on this agreement.
+                    </header>
+
+                    <div style="padding: 25px 15px 5px; background: #fff; " class="row">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <!-- Driver and Vehicle Details -->
+                        <div class="row">
+                            <!--Driver Modal -->
+                            <div class="col-xs-5">
+                                <section class="clearfix">
+                                    @Html.LabelFor(model => model.DriverID, "Search Driver", htmlAttributes: new { @class = "label col-sm-12" })
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(model => model.selectedDriver, new System.Web.Mvc.SelectList(Model.driverList, "key", "value"), new { @class = "form-control chosen-select", @id = "driverList" })
+                                        @Html.ValidationMessageFor(model => model.DriverID, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button id="addDriver" class="btn btn-primary" value="AddDriver" name="addDriver" data-toggle="modal" data-target="#myModal" style="padding:2px;float:right;"> Add Driver </button>
+                                    </div>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Given Name </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input type="text" name="dGivenName" id="dGivenName" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Middle Name </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input type="text" name="dMiddleName" id="dMiddleName" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Address </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-envelope-o"></i>
+                                        <input type="text" name="dAddress" id="dAddress" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Mobile No </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-phone"></i>
+                                        <input type="text" name="dMobileNo" id="dMobileNo" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Licence No </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input type="text" name="dLicenceNo" id="dLicenceNo" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Possession Date </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="date" name="pDate" id="pDate" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Possession Time </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="time" name="pTime" id="pTime" value="">
+                                    </label>
+                                </section>
+
+                            </div>
+
+                            <!-- Column space Modal -->
+                            <div class="col-xs-1">
+                            </div>
+
+                            <!-- Vehicle Modal -->
+                            <div class="col-xs-5">
+                                <section class="clearfix">
+                                    @Html.LabelFor(model => model.RegistrationNo, "Search Vehicle", htmlAttributes: new { @class = "label col-sm-12" })
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(model => model.selectedVehicle, new System.Web.Mvc.SelectList(Model.vehicleList, "key", "value"), new { @class = "form-control chosen-select", @id = "vehicleList" })
+                                        @Html.ValidationMessageFor(model => model.RegistrationNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </section>
+
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Registration No </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-car"></i>
+                                        <input type="text" name="vehicleReg" id="vehicleReg" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Make </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-car"></i>
+                                        <input type="text" name="vehicleMake" id="vehicleMake" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Model </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-car"></i>
+                                        <input type="text" name="vehicleModel" id="vehicleModel" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Year </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" name="vehicleYear" id="vehicleYear" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Color </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-car"></i>
+                                        <input type="text" name="vehicleColor" id="vehicleColor" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">First ODO Meter Reading </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-tachometer"></i>
+                                        <input type="text" name="vehicleFirstODOMeterReading" id="vehicleFirstODOMeterReading" value="">
+                                    </label>
+                                </section>
+                                <section class="clearfix">
+                                    <label class="label col-sm-12">Engine Service Due KM </label>
+                                    <label class="input col-sm-12">
+                                        <i class="icon-append fa fa-tachometer"></i>
+                                        <input type="text" name="vehicleEngineServiceDueKM" id="vehicleEngineServiceDueKM" value="">
+                                    </label>
+                                </section>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <section class="clearfix">
+                                            <input type="checkbox" name="ETagHolder" id="ETagHolder">
+                                            <i></i>E-Tag
+                                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set E-Tag holder status</b>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-xs-4">
+                                        <section class="clearfix">
+                                            <input type="checkbox" name="FootMatts" id="FootMatts">
+                                            <i></i>Foot Matts
+                                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set Foot Matts status</b>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-xs-4">
+                                        <section class="clearfix">
+                                            <input type="checkbox" name="clean" id="clean">
+                                            <i></i>Cleanliness
+                                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set cleenness</b>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <section class="clearfix">
+                                <button id="addVehicleImage" value="AddVehicleImage" name="addVehicleImage" data-toggle="modal" data-target="#myModal2" class="txt-color-white btn btn-primary btn-lg fa fa-plus"> Add Vehicle Image </button>
+                                @*<button id="addVehicleImage" class="btn btn-primary" value="AddVehicleImage" name="AddVehicleImage" data-toggle="modal" data-target="#myModal1" style="padding: 2px; float: right;"> Add Vehicle Image </button>*@
+                                <span> </span>
+                                <button id="addVehicleIssue" value="AddVehicleIssue" name="addVehicleIssue" data-toggle="modal" data-target="#myModal1" class="txt-color-white btn btn-primary btn-lg fa fa-plus"> Add Vehicle Issue </button>
+                            </section>
+
+                            <section class="clearfix">
+                                <label class="lable col-sm-12" for="Active">Vehicle Issues</label>
+                                <table class="table" id="vehicleIssuesList"></table>
+                            </section>
+
+                        </div>
+
+                        <!-- EXCESS DETAILS -->
+                        <div class="row">
+                            <label class="lable col-sm-12" for="Active">Excess details</label>
+                            <table class="table fa-border">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Standard excess
+                                        </th>
+                                        <th>
+                                            Additional - age under 25 years
+                                        </th>
+                                        <th>
+                                            Additional - Australian license under 2 years
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            $650
+                                        </th>
+                                        <th scope="row">
+                                            $400
+                                        </th>
+                                        <th scope="row">
+                                            $400
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <div class="row" style="padding: 25px 15px 5px;">
+                                <div class=" col-xs-12">
+                                    <section class="clearfix">
+                                        <input type="checkbox" name="AgreeExcessDetails" value="false" required>
+                                        <i></i>I accept above all excess details
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please sagree with excess details</b>
+                                    </section>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Term and Conditions -->
+                        <div class="row">
+                            <section class="clearfix">
+                                <input type="checkbox" name="termChk" id="termChk" value="false" required>
+                                <i></i>I am Agree with <a id="tc" class="btn" value="TermCondition" name="tc" data-toggle="modal" data-target="#myModal3" style="padding:2px"> Term and Conditions </a>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set Agree</b>
+                            </section>
+                        </div>
+
+                        <!-- Driver Signature Modal -->
+                        <div class="row">
+                            <div class="col-md-5" style="margin-left: 15px;">
+                                <div class="sigPad" id="driverSinature" style="width:404px;">
+                                    <h2>Driver signature</h2>
+                                    <ul class="sigNav">
+                                        <li class="drawIt"><a href="#draw-it">Draw It</a></li>
+                                        <li class="clearButton"><a href="#clear">Clear</a></li>
+                                    </ul>
+                                    <div class="sig sigWrapper" style="height:auto;">
+                                        <div class="typed"></div>
+                                        <canvas class="pad" width="400" height="250"></canvas>
+                                        <input type="hidden" name="driver_signature" id="driver_signature" class="output">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contractor Signature Modal -->
+                        <div class="row">
+                            <div class="col-md-5" style="margin-left: 15px;">
+                                <div class="sigPad" id="contratctoSignature" style="width:404px;">
+                                    <h2>Contractor signature</h2>
+                                    <ul class="sigNav">
+                                        <li class="drawIt"><a href="#draw-it">Draw It</a></li>
+                                        <li class="clearButton"><a href="#clear">Clear</a></li>
+                                    </ul>
+                                    <div class="sig sigWrapper" style="height:auto;">
+                                        <div class="typed"></div>
+                                        <canvas class="pad" width="400" height="250"></canvas>
+                                        <input type="hidden" name="contractor_signature" id="contractor_signature" class="output">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="row">
+                        <footer>
+                            <i>
+                                @Html.ActionLink(" Back to List", "Index", null, new { @class = "fa fa-backward" })
+                            </i>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+
+                                    <button class="btn btn-primary " type="submit" value="Create" name="Create"> Create </button>
+                                </div>
+                            </div>
+
+                        </footer>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Possessions</h4>
+                        </div>
+                        <div class="modal-body">
+                            @using (Ajax.BeginForm("CreateDriver", "Possessions", new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+                                    <h4>Drivers</h4>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.GivenName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.GivenName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.GivenName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.MiddleName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.SurName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.SurName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.SurName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.DateOfBirth, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.Address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.Suburb, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.Suburb, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.Suburb, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.State, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.State, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.Postcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.Postcode, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.Postcode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.LicenceNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.LicenceNo, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.LicenceNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.MobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.MobileNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.EmergencyContactName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.EmergencyContactName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.EmergencyContactName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.EmergencyContactRelation, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.EmergencyContactRelation, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.EmergencyContactRelation, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.EmergencyContactMobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.EmergencyContactMobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.EmergencyContactMobileNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.EmergencyContactAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.EmergencyContactAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.EmergencyContactAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.UberID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.UberID, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.UberID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.UberIDPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.UberIDPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.UberIDPassword, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myDriver.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myDriver.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myDriver.EmailAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Create" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Possessions</h4>
+                        </div>
+                        <div class="modal-body">
+                            @using (Ajax.BeginForm("CreateVehicleIssue", "Possessions", new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+                                    <h4>Vehicle Issues</h4>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.myVehicleIssue.IssueDetails, htmlAttributes: new { @class = "control-label col-md-2", @name = "issueDetail" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.myVehicleIssue.IssueDetails, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.myVehicleIssue.IssueDetails, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="editor-label">
+                                        @Html.LabelFor(model => model.myVehicleIssue.ImagePath)
+                                    </div>
+                                    <div class="editor-field">
+                                        <input id="ImagePath" title="Upload a product image"
+                                               type="file" name="file" />
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Create" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabe2">Possessions</h4>
+                        </div>
+                        <div class="modal-body">
+                            @using (Ajax.BeginForm("Create", "VehiclesImages", @Model.VehicleID, new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <h4>Add Vehicle Images</h4>
+
+                                <div class="form-group">
+
+                                    <input type="text" value=@Model.VehicleID hidden="" name="VehicleID" id="VehicleID">
+                                </div>
+
+                                <div class="form-group">
+                                    <span class="control-label col-md-2">Select Image</span>
+                                    <input id="ImagePath" title="Upload a issue image" type="file" name="file" />
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Terms and Conditions</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li>ONE WEEK WRITTEN NOTICE REQUIRE BEFORE YOU RETURN VEHICLE.</li>
+                                <li>IN THE EVENT OF AN ACCIDENT YOU ARE BOND TO INFORM US WITHIN 24 HOURS.</li>
+                                <li>BONDS WILL NOT BE RELEASED PRIOR TO 07 DAYS FROM THE DATE THE VEHICLE IS RETURNED.</li>
+                                <li>ANY EXTRA CHARGES ARE SUBJECT TO VEHICLE INSPECTION BY A COMPANY REPRESENTATIVE. </li>
+                            </ul>
+                            PLEASE READ IMPORTANT INFORMATION REGARDING AUTHORISED DRIVERS WITHIN THE AGREEMENT.
+                            <table class="table fa-border">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>YOU ACKNOWLEDGE THAT YOU HAVE RECEIVED AND UNDERSTOOD THE TERMS AND CONDITIONS OF RENTAL AGREEMENT, YOU AUTHORISE MIR FLEET TO CHARGE ALL UNPAID MONIES DUE TO THE CREDIT CARD PROVIDED ON THE RENTAL AGREEMENT OR ANY OTHER CHARGE ACCOUNT PROVIDED TO SETTLE ANY CHARGES AND OBLIGATIONS PAYABLE ON THIS RENTAL AGREEMENT.</td>
+                                        <td>
+                                            <ul>
+                                                <li> NO ADDITIONAL DRIVERS ALLOWED ON THIS VEHICLE.</li>
+                                                <li>IN CASE OF ANY ACCIDENT INSURANCE WILL NOT COVER ANY CLAIM.</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="~/Content/signature/jquery.signaturepad.css" rel="stylesheet">
+<script src="~/Content/signature/numeric-1.2.6.min.js"></script>
+<script src="~/Content/signature/bezier.js"></script>
+<script src="~/Content/signature/jquery.signaturepad.js"></script>
+<script src="~/Content/signature/json2.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $('#driverSinature').signaturePad({
+        drawOnly: true,
+        drawBezierCurves: true,
+        lineTop: 200,
+        errorMessageDraw: 'Please sign the contract'
+    });
+
+    $('#contratctoSignature').signaturePad({
+        drawOnly: true,
+        drawBezierCurves: true,
+        lineTop: 200,
+        errorMessageDraw: 'Please sign the contract'
+    });
+
+    var vehichleId = null;
+    var config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': { allow_single_deselect: true },
+        '.chosen-select-no-single': { disable_search_threshold: 10 },
+        '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+        '.chosen-select-width': { width: "95%" }
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
+    $("#driverList").change(function () {
+        debugger;
+        var driverIdVal = $('#driverList').val();
+        var driverIdVal = $('#driverList').val();
+
+        $.ajax({
+            type: "POST",
+            url: "../../Possessions/DriverInfo",
+            contentType: "application/json; charset=utf-8",
+            data: "{'driverId':'" + driverIdVal + "'}",
+            dataType: "json",
+            success: function (data) {
+                $('#dGivenName').val(data.GivenName);
+                $('#dMiddleName').val(data.MiddleName);
+                $('#dAddress').val(data.Address);
+                $('#dMobileNo').val(data.MobileNo);
+                $('#dLicenceNo').val(data.LicenceNo);
+
+                //var d = new Date();
+                //var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+                //$('#pDate').val(strDate);
+
+                //var t = new Date();
+                //var strTime = t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
+                //$('#pTime').val(strTime);
+            },
+            error: function () { alert('fail'); }
+        });
+
+    });
+
+    $("#vehicleList").change(function () {
+
+        var vehicleListVal = $('#vehicleList').val();
+        localStorage.setItem("id", vehicleListVal);
+        $.ajax({
+            type: "POST",
+            url: "../../Possessions/VehicleInfo",
+            contentType: "application/json; charset=utf-8",
+            data: "{'vehicleId':'" + vehicleListVal + "'}",
+            dataType: "json",
+            success: function (data) {
+                $('#vehicleMake').val(data.Make);
+                $('#vehicleReg').val(data.RegistrationNo);
+                $('#vehicleModel').val(data.Model);
+                $('#vehicleYear').val(data.Year);
+                $('#vehicleColor').val(data.Color);
+                $('#vehicleFirstODOMeterReading').val(data.FirstODOMeterReading);
+                $('#vehicleEngineServiceDueKM').val(data.EngineServiceDueKM);
+                $('#ETagHolder').prop('checked', data.ETagHolder);
+                $('#FootMatts').prop('checked', data.FootMatts);
+
+                var row = "<tr><th>Issue #</th><th>Issue Detail</th><th>Image</th></tr>";
+
+                $.each(data.vehicleIssues, function (index, item) {
+
+                    row += "<tr><td>" + (index + 1) + "</td>" +
+                        "<td>" + item.IssueDetails + "</td>" +
+                        "<td>" + '<img src=' + item.ImagePath + ' alt="image" width="150px" class="img-thumbnail" />' + "</td></tr>";
+                });
+                $("#vehicleIssuesList").html(row);
+            },
+            error: function () { alert('fail'); }
+        });
+
+    });
+
+    $("#addDriver").click(function (event) {
+        event.preventDefault();
+    });
+
+    $("#addVehicleIssue").click(function (event) {
+        event.preventDefault();
+    });
+
+    $("#tc").click(function (event) {
+        event.preventDefault();
+    });
+
+
+    var driverId = '@(ViewBag.driverId)';
+    var vehichleId = '@(ViewBag.vehicleId)';
+
+    if (driverId && driverId != -1) {
+        $.ajax({
+            type: "POST",
+            url: "../../Possessions/DriverInfo",
+            contentType: "application/json; charset=utf-8",
+            data: "{'driverId':'" + driverId + "'}",
+            dataType: "json",
+            success: function (data) {
+                $('#dGivenName').val(data.GivenName);
+                $('#dMiddleName').val(data.MiddleName);
+                $('#dAddress').val(data.Address);
+                $('#dMobileNo').val(data.MobileNo);
+                $('#dLicenceNo').val(data.LicenceNo);
+                $('#driverList').val(data.DriverID);
+                //var d = new Date();
+                //var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+                //$('#pDate').val(strDate);
+
+                //var t = new Date();
+                //var strTime = t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
+                //$('#pTime').val(strTime);
+            },
+            error: function () { alert('fail'); }
+        });
+
+
+    } if (vehichleId) {
+        $.ajax({
+            type: "POST",
+            url: "../../Possessions/VehicleInfo",
+            contentType: "application/json; charset=utf-8",
+            data: "{'vehicleId':'" + vehichleId + "'}",
+            dataType: "json",
+            success: function (data) {
+                $('#vehicleMake').val(data.Make);
+                $('#vehicleReg').val(data.RegistrationNo);
+                $('#vehicleModel').val(data.Model);
+                $('#vehicleYear').val(data.Year);
+                $('#vehicleColor').val(data.Color);
+                $('#vehicleFirstODOMeterReading').val(data.FirstODOMeterReading);
+                $('#vehicleEngineServiceDueKM').val(data.EngineServiceDueKM);
+                $('#ETagHolder').prop('checked', data.ETagHolder);
+                $('#FootMatts').prop('checked', data.FootMatts);
+
+                var row = "<tr><th>Issue #</th><th>Issue Detail</th><th>Image</th></tr>";
+
+                $.each(data.vehicleIssues, function (index, item) {
+                    row += "<tr><td>" + (index + 1) + "</td>" +
+                        "<td>" + item.IssueDetails + "</td>" +
+                        "<td>" + '<img src=' + item.ImagePath + ' alt="image" width="100px"/>' + "</td></tr>";
+                });
+                $("#vehicleIssuesList").html(row);
+            },
+            error: function () { alert('fail'); }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        // Validation
+        $("#myForm").validate({
+            // Rules for form validation
+            rules: {
+                pDate: {
+                    required: true
+                },
+                pTime: {
+                    required: true
+                }
+            },
+
+            // Messages for form validation
+            messages: {
+                pDate: {
+                    required: 'Please enter date'
+                },
+                pTime: {
+                    required: 'Please enter time'
+                }
+            },
+
+            // Do not change code below
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+    });
+</script>

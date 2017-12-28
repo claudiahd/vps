@@ -1,0 +1,146 @@
+﻿@model VPS.Models.MyUser
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="well no-padding">
+
+            <form action="@Url.Action("Create", "Users")" method="POST" id="myForm" name="myForm" class="smart-form client-form">
+
+                @*@using (Html.BeginForm("Create", "Users", null, FormMethod.Post, new { @id = "myForm", @name = "myForm", @class = "smart-form client-form" }))*@
+                @* { *@
+                @Html.AntiForgeryToken()
+
+                <header>
+                    Add New User
+                </header>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationBootstrap()
+                <div class="col-xs-12">
+
+                    <fieldset>
+                        <section>
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                <input type="text" name="Name" value=@if(Model!=null){@Model.Name}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter name</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "label" })
+
+                            <label class="input">
+                                <i class="icon-append fa fa-envelope"></i>
+                                <input type="email" name="EmailAddress" id="EmailAddress" value=@if(Model!=null){@Model.EmailAddress}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.ReEmailAddress, htmlAttributes: new { @class = "label" })
+
+                            <label class="input">
+                                <i class="icon-append fa fa-envelope"></i>
+                                <input type="email" name="ReEmailAddress" value= @if(Model!=null){@Model.ReEmailAddress}>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please confirm email</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "lable" })
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.EditorFor(model => model.Password)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter password</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.VerifyPassword, htmlAttributes: new { @class = "lable" })
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.EditorFor(model => model.VerifyPassword)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter verify password</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            @Html.LabelFor(model => model.UserTypeID, htmlAttributes: new { @class = "lable" })
+                            <label class="input">
+
+
+                                @Html.DropDownList("UserTypeID")
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please select user type</b>
+                            </label>
+                        </section>                        
+
+                        <section>
+                            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "lable" })
+                            <label class="">
+                                @Html.EditorFor(model => model.Active)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set user access</b>
+                            </label>
+                        </section>
+                       
+                        <footer>
+
+                            <i>
+                                @Html.ActionLink(" Back to List", "Index", null, new { @class = "fa fa-backward" })
+                            </i>
+
+                            <button type="submit" class="btn btn-primary">
+                                Add
+                            </button>
+
+                        </footer>
+
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+
+
+
+
+
+    </div>
+
+</div>
+
+@section pagespecific {
+
+    <script src="http://intridea.github.io/sketch.js/lib/sketch.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // Validation
+            $("#myForm").validate({
+                // Rules for form validation
+                rules: {
+                    ReEmailAddress: {
+                        equalTo: "#EmailAddress"
+                    },
+                    VerifyPassword: {
+                        equalTo: "#Password"
+                    },
+                },
+
+                // Messages for form validation
+                messages: {
+                    ReEmailAddress: {
+                        equalTo: 'Please enter same email Address'
+                    },
+                    VerifyPassword: {
+                        equalTo: 'Please enter same password'
+                    }
+                }
+            });
+        });
+    </script>
+}

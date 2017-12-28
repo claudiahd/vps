@@ -1,0 +1,248 @@
+﻿@model VPS.Models.DTOs.MyVehicle
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div id="content">
+    <!-- row -->
+    <div class="row">
+
+        <!-- col -->
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+
+                <!-- PAGE HEADER -->
+                <i class="fa-fw fa fa-home"></i>
+                Vehicle
+                <span>
+                    &gt;
+                    Details
+                </span>
+            </h1>
+        </div>
+        <!-- end col -->
+        <!-- right side of the page with the sparkline graphs -->
+        <!-- col -->
+        <div class="row">
+            <div class="col-xs-12 text-left margin-left-10">
+                @Html.ActionLink("  Edit", "Edit", new { id = Model.VehicleID }, new { @class = "txt-color-white btn btn-primary btn-lg fa fa-edit" })                                
+                @Html.ActionLink(" Back to List", "Index", null, null, new { @class = "txt-color-white btn btn-danger btn-lg fa fa-backward" })
+            </div>
+        </div>
+
+        @*<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8 text-right">
+                <a href="javascript:void(0);" class="btn btn-default shop-btn">
+                    <i class="fa fa-3x fa-edit"></i> Edit
+                </a>
+            </div>*@
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <!-- product -->
+                <div class="product-content product-wrap clearfix product-deatil">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-12 col-xs-12 ">
+                            <div class="description description-tabs">
+                                <ul id="myTab2" class="nav nav-pills">
+                                    <li class="active"><a href="#vImages" data-toggle="tab" class="no-margin">Vehicle Images</a></li>
+                                    <li class=""><a href="#vIssues" data-toggle="tab">Vehicle Issues</a></li>
+                                </ul>
+                                <div id="myTabContent2" class="tab-content">
+                                    <div class="tab-pane fade active in" id="vImages">
+                                        <div class="product-image">
+                                            <div id="myCarousel-2" class="carousel slide">
+                                                <ol class="carousel-indicators">
+                                                    @for (int i = 0; i < Model.vehicleImages.Count; i++)
+                                                    {
+                                                        <li data-target="#myCarousel-2" data-slide-to=@i class=""></li>
+                                                    }
+                                                </ol>
+                                                <div class="carousel-inner">
+                                                    @if (@Model.vehicleImages.Count > 0)
+                                                    {
+                                                        foreach (var item in Model.vehicleImages)
+                                                        {
+                                                            if (Model.vehicleImages[0] == item)
+                                                            {
+                                                                <div class="item active">
+                                                                    <img src=@item.ImagePath alt="">
+                                                                    <div class="col-xs-12 text-center">                                                                        
+                                                                        @Html.ActionLink("  Detail", "Details", "VehiclesImages", new { id = item.VehicleImageID }, new { @class = "txt-color-blue btn-link fa fa-info" })
+                                                                        <span> | </span>
+                                                                        @Html.ActionLink("  All", "Index", "VehiclesImages", new { id = item.VehicleID }, new { @class = "txt-color-blue btn-link fa fa-list" })
+
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="item">
+                                                                    <img src=@item.ImagePath alt="">
+                                                                    <div class="col-xs-12 text-center">                                                                        
+                                                                        @Html.ActionLink("  Detail", "Details", "VehiclesImages", new { id = item.VehicleImageID }, new { @class = "txt-color-blue btn-link fa fa-info" })
+                                                                        <span> | </span>
+                                                                        @Html.ActionLink("  All", "Index", "VehiclesImages", new { id = item.VehicleID }, new { @class = "txt-color-blue btn-link fa fa-list" })
+
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="item active">
+                                                            <img src="/Content/img/noImage.jpg" alt="">
+                                                        </div>
+                                                    }
+                                                    <span>
+                                                        @Html.ActionLink(" Add New Images", "Create", "VehiclesImages", new { id = @Model.VehicleID }, new { @class = "txt-color-white btn btn-success btn-lg fa fa-plus" })
+                                                    </span>
+
+                                                </div>
+                                                <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+                                                <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade in" id="vIssues">
+                                        <div class="product-image">
+                                            <div id="myCarousel-3" class="carousel slide">
+                                                <ol class="carousel-indicators">
+                                                    @for (int i = 0; i < Model.vehicleIssues.Count; i++)
+                                                    {
+                                                        <li data-target="#myCarousel-3" data-slide-to=@i class=""></li>
+                                                    }
+                                                </ol>
+                                                <div class="carousel-inner">
+                                                    @if (@Model.vehicleIssues.Count > 0)
+                                                    {
+                                                        foreach (var item in Model.vehicleIssues)
+                                                        {
+                                                            if (Model.vehicleIssues[0] == item)
+                                                            {
+                                                                <div class="item active">
+                                                                    <img src=@item.ImagePath alt="">
+                                                                    <span>@item.IssueDetails </span>
+                                                                    <div class="col-xs-12 text-center">
+                                                                        @Html.ActionLink("  Edit", "Edit", "VehiclesIssues", new { id = item.VehicleIssueID }, new { @class = "txt-color-blue btn-link fa fa-edit" })
+                                                                        <span> | </span>
+                                                                        @Html.ActionLink("  Detail", "Details", "VehiclesIssues", new { id = item.VehicleIssueID }, new { @class = "txt-color-blue btn-link fa fa-info" })
+                                                                        <span> | </span>
+                                                                        @Html.ActionLink("  All", "Index", "VehiclesIssues", new { id = item.VehicleID }, new { @class = "txt-color-blue btn-link fa fa-list" })
+
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="item">
+                                                                    <img src=@item.ImagePath alt="">
+                                                                    <span>@item.IssueDetails </span>
+                                                                    <div class="col-xs-12 text-center">
+                                                                        @Html.ActionLink("  Edit", "Edit", "VehiclesIssues", new { id = item.VehicleIssueID }, new { @class = "txt-color-blue btn-link fa fa-edit" })
+                                                                        <span> | </span>
+                                                                        @Html.ActionLink("  Detail", "Details", "VehiclesIssues", new { id = item.VehicleIssueID }, new { @class = "txt-color-blue btn-link fa fa-info" })
+                                                                        <span> | </span>
+                                                                        @Html.ActionLink("  All", "Index", "VehiclesIssues", new { id = item.VehicleID }, new { @class = "txt-color-blue btn-link fa fa-list" })
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="item active">
+                                                            <img src="/Content/img/noImage.jpg" alt="">
+                                                        </div>
+                                                    }
+                                                    <span>
+                                                        @Html.ActionLink(" Add New Issue", "Create", "VehiclesIssues", new { id = @Model.VehicleID }, new { @class = "txt-color-white btn btn-success btn-lg fa fa-plus" })
+                                                    </span>
+                                                </div>
+                                                <a class="left carousel-control" href="#myCarousel-3" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+                                                <a class="right carousel-control" href="#myCarousel-3" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <table class="table table-striped" style="width:100%;">
+                                <tbody>
+                                    <tr>
+                                        <td class="txt-color-blue">Registration: </td>
+                                        <td>@Model.RegistrationNo</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Make: </td>
+                                        <td>@Model.Make </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Model:</td>
+                                        <td>@Model.Model</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Year: </td>
+                                        <td>@Model.Year</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Color: </td>
+                                        <td>@Model.Color</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Registration Expiry: </td>
+                                        <td>@Model.RegistrationExpiryDate.GetValueOrDefault().ToShortDateString()</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.ActionLink("Possessions (" + @Model.PossessionsCount + ")", "PossessionByVehicle", "Possessions", new { id = @Model.VehicleID }, new { @class = "" })
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <h3 class="price-container">
+                                @Model.LastODOMeterReading km
+                                <small>ODOMETER</small>
+                            </h3>
+
+                            <div class="certified">
+                                <ul>
+                                    <li><a href="javascript:void(0);">Service Due - Engine<span>@Model.EngineServiceDueKM km</span></a></li>
+                                    <li><a href="javascript:void(0);">Service Due - Transmission<span>@Model.EngineServiceDueKM km</span></a></li>
+                                </ul>
+                            </div>
+                            <hr>
+                            <div class="tab-pane fade active in" id="more-information">
+                                <br>
+                                <strong>Details</strong>
+                                <p>@Model.Details</p>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <!-- end product -->
+            </div>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
