@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using VPS.Models;
 using VPS.Models.DTOs;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace VPS.Controllers
 {
@@ -18,33 +19,31 @@ namespace VPS.Controllers
         private VPSEntities db = new VPSEntities();
 
         // GET: Vehicles
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            List<MyVehicle> myVehicles = new List<MyVehicle>();
-
-            foreach (var vehicle in db.Vehicles.OrderBy(v => v.RegistrationNo).ToList())
+            List<VehicleDto> myVehicles = new List<VehicleDto>();
+            List<Vehicles> vehicles = await db.Vehicles.OrderBy(v => v.RegistrationNo).ToListAsync();
+            foreach (var vehicle in vehicles)
             {
-                MyVehicle v = new MyVehicle(vehicle);
+                VehicleDto v = new VehicleDto(vehicle);
                 myVehicles.Add(v);
             }
-
             return View(myVehicles);
-
         }
 
         // GET: Vehicles/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehicles dbVehicles = db.Vehicles.Find(id);
+            Vehicles dbVehicles = await db.Vehicles.FindAsync(id);
             if (dbVehicles == null)
             {
                 return HttpNotFound();
             }
-            MyVehicle myVehicle = new MyVehicle(dbVehicles);
+            VehicleDto myVehicle = new VehicleDto(dbVehicles);
             return View(myVehicle);
         }
 
@@ -60,7 +59,7 @@ namespace VPS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VehicleID,RegistrationNo,RegistrationExpiryDate,Make,Model,Year,Color,FirstODOMeterReading,LastODOMeterReading,EngineServiceDueKM,TransmissionServiceDueKM")] MyVehicle myVehicle)
+        public async Task<ActionResult> Create([Bind(Include = "VehicleID,RegistrationNo,RegistrationExpiryDate,Make,Model,Year,Color,FirstODOMeterReading,LastODOMeterReading,EngineServiceDueKM,TransmissionServiceDueKM")] VehicleDto myVehicle)
         {
             if (ModelState.IsValid)
             {
@@ -75,13 +74,14 @@ namespace VPS.Controllers
                 dbVehicle.LastODOMeterReading = myVehicle.LastODOMeterReading;
                 dbVehicle.TransmissionServiceDueKM = myVehicle.TransmissionServiceDueKM;
                 dbVehicle.EngineServiceDueKM = myVehicle.EngineServiceDueKM;
+                dbVehicle.IsActive = true;
                 //dbVehicle.ETagHolder = myVehicle.ETagHolder;
                 //dbVehicle.FootMatts = myVehicle.FootMatts;
 
 
 
                 db.Vehicles.Add(dbVehicle);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -89,19 +89,19 @@ namespace VPS.Controllers
         }
 
         // GET: Vehicles/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehicles vehicles = db.Vehicles.Find(id);
+            Vehicles vehicles = await db.Vehicles.FindAsync(id);
             if (vehicles == null)
             {
                 return HttpNotFound();
             }
 
-            return View(new MyVehicle(vehicles));
+            return View(new VehicleDto(vehicles));
         }
 
         // POST: Vehicles/Edit/5
@@ -109,65 +109,69 @@ namespace VPS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VehicleID,RegistrationNo,RegistrationExpiryDate,Make,Model,Year,Color,FirstODOMeterReading,LastODOMeterReading,EngineServiceDueKM,TransmissionServiceDueKM")] MyVehicle myVehicles)
+        public async Task<ActionResult> Edit([Bind(Include = "VehicleID,RegistrationNo,RegistrationExpiryDate,Make,Model,Year,Color,FirstODOMeterReading,LastODOMeterReading,EngineServiceDueKM,TransmissionServiceDueKM,Active")] VehicleDto myVehicles)
         {
             if (ModelState.IsValid)
             {
-                Vehicles dbVehicles = db.Vehicles.Find(myVehicles.VehicleID);
-                dbVehicles.Color = myVehicles.Color;
-                dbVehicles.EngineServiceDueKM = myVehicles.EngineServiceDueKM;                
-                dbVehicles.FirstODOMeterReading = myVehicles.FirstODOMeterReading;                
-                dbVehicles.LastODOMeterReading = myVehicles.LastODOMeterReading;
-                dbVehicles.Make = myVehicles.Make;
-                dbVehicles.Model = myVehicles.Model;
-                dbVehicles.RegistrationExpiryDate = myVehicles.RegistrationExpiryDate;
-                dbVehicles.RegistrationNo = myVehicles.RegistrationNo;
-                dbVehicles.TransmissionServiceDueKM = myVehicles.TransmissionServiceDueKM;
-                dbVehicles.Year = myVehicles.Year;
-                //dbVehicles.ETagHolder = myVehicles.ETagHolder;
-                //dbVehicles.FootMatts = myVehicles.FootMatts;
-                db.Entry(dbVehicles).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Vehicles dbVehicle = await db.Vehicles.FindAsync(myVehicles.VehicleID);
+                if (dbVehicle != null)
+                {
+                    dbVehicle.Color = myVehicles.Color;
+                    dbVehicle.EngineServiceDueKM = myVehicles.EngineServiceDueKM;
+                    dbVehicle.FirstODOMeterReading = myVehicles.FirstODOMeterReading;
+                    dbVehicle.LastODOMeterReading = myVehicles.LastODOMeterReading;
+                    dbVehicle.Make = myVehicles.Make;
+                    dbVehicle.Model = myVehicles.Model;
+                    dbVehicle.RegistrationExpiryDate = myVehicles.RegistrationExpiryDate;
+                    dbVehicle.RegistrationNo = myVehicles.RegistrationNo;
+                    dbVehicle.TransmissionServiceDueKM = myVehicles.TransmissionServiceDueKM;
+                    dbVehicle.Year = myVehicles.Year;
+                    dbVehicle.IsActive = myVehicles.Active;
+                    //dbVehicles.ETagHolder = myVehicles.ETagHolder;
+                    //dbVehicles.FootMatts = myVehicles.FootMatts;
+                    db.Entry(dbVehicle).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
             return View(myVehicles);
         }
 
         // GET: Vehicles/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehicles dbVehicle = db.Vehicles.Find(id);
+            Vehicles dbVehicle = await db.Vehicles.FindAsync(id);
             if (dbVehicle == null)
             {
                 return HttpNotFound();
             }
-            MyVehicle myVehicle = new MyVehicle(dbVehicle);
+            VehicleDto myVehicle = new VehicleDto(dbVehicle);
             return View(myVehicle);
         }
 
         // POST: Vehicles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
 
-            Vehicles vehicles = db.Vehicles.Find(id);
+            Vehicles vehicles = await db.Vehicles.FindAsync(id);
 
 
             if (vehicles.Possessions.Count > 0)
             {
-                MyVehicle vehicle = new MyVehicle(vehicles);
+                VehicleDto vehicle = new VehicleDto(vehicles);
                 ViewBag.Error = "Vehicle is being used in possession and can't delete";
                 return View(vehicles);
             }
 
 
             db.Vehicles.Remove(vehicles);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 

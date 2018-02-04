@@ -8,19 +8,24 @@
 <div id="content" class="container">
 
     <div class="row">
+        <header>
+            Add New Driver
+        </header>
         <div class="well no-padding">
-            <form action="@Url.Action("Create", "Drivers")" method="POST" id="myForm" name="myForm" class="smart-form client-form">
+            @*@using (Ajax.BeginForm("Create", "Drivers", new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }, new { id="myForm", name="myForm", enctype = "multipart/form-data", @class ="smart-form client-form"}))
+            {*@
+            <form action="@Url.Action("Create", "Drivers")" method="POST" id="myForm" name="myForm" class="smart-form client-form" enctype="multipart/form-data">
 
-                @Html.AntiForgeryToken()
+                <fieldset>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <header>
-                    Add New Driver
-                </header>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-xs-12">
+                        <div>
+                            <img id="profileImage" name="profileImage" src="/Images/Drivers/noImage.JPG" class="img-thumbnail" alt="" width="15%" height="15%" />
+                            <input id="imageUpload" title="Upload a issue image" type="file" name="file" />
+                        </div>
 
-                <div class="col-xs-12">
-
-                    <fieldset>
                         <section>
                             @Html.LabelFor(model => model.GivenName, htmlAttributes: new { @class = "label" })
                             <label class="input">
@@ -46,7 +51,7 @@
                             @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "label" })
                             <label class="input">
                                 <i class="icon-append fa fa-calendar"></i>
-                                <input type="text" name="DateOfBirth" id="DateOfBirth" required="">
+                                <input type="date" name="DateOfBirth" id="DateOfBirth" required>
                             </label>
                         </section>
                         <section>
@@ -129,7 +134,7 @@
                         <section>
                             @Html.LabelFor(model => model.EmergencyContactMobileNo, htmlAttributes: new { @class = "label" })
                             <label class="input">
-                                <input type="text" name="EmergencyContactNumber" value="">
+                                <input type="text" name="EmergencyContactMobileNo" value="">
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Number</b>
                             </label>
                         </section>
@@ -142,20 +147,20 @@
                         </section>
 
                         <footer>
-
-                            <i>
-                                @Html.ActionLink(" Back to List", "Index", null, new { @class = "fa fa-backward" })
-                            </i>
-
                             <button type="submit" class="btn btn-primary">
                                 Add
                             </button>
 
                         </footer>
-
-                    </fieldset>
-                </div>
+                    </div>
+                </fieldset>
+                @*}*@
             </form>
+
+            <i>
+                @Html.ActionLink(" Back to List", "Index", null, new { @class = "fa fa-backward" })
+            </i>
+
         </div>
 
     </div>
@@ -163,12 +168,45 @@
 
 @section pagespecific{
     <script type="text/javascript">
+        $("#profileImage").click(function (e) {            
+            $("#imageUpload").click();
+        });
 
-        // START AND FINISH DATE
-        $('#DateOfBirth').datepicker({
-            dateFormat: 'dd/mm/yy',
-            prevText: '<i class="fa fa-chevron-left"></i>',
-            nextText: '<i class="fa fa-chevron-right"></i>'
+        function fasterPreview(uploader) {
+            if (uploader.files && uploader.files[0]) {
+                $('#profileImage').attr('src',
+                   window.URL.createObjectURL(uploader.files[0]));
+            }
+        }
+
+        $("#imageUpload").change(function () {
+            fasterPreview(this);
         });
     </script>
+
+    <style>
+        #imageUpload {
+            display: none;
+        }
+
+        #profileImage {
+            cursor: pointer;
+        }
+
+        #profile-container {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+            #profile-container img {
+                width: 150px;
+                height: 150px;
+            }
+    </style>
 }

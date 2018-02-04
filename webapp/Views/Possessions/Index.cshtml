@@ -45,7 +45,7 @@
                                             <th data-class="expand"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i> Return Time</th>
                                             <th data-class="expand"><i class="fa fa-fw fa-user txt-color-blue hidden-md hidden-sm hidden-xs"></i> Driver Name</th>
                                             <th data-class="expand"><i class="fa fa-fw fa-user txt-color-blue hidden-md hidden-sm hidden-xs"></i> Possess By</th>
-                                            <th data-class="expand"><i class="fa fa-fw fa-user txt-color-blue hidden-md hidden-sm hidden-xs"></i> Details</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user txt-color-blue hidden-md hidden-sm hidden-xs"></i> Add Return/Notice</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,9 +62,9 @@
                                                 <td>                                                    
                                                     @if (item.IsReturn == false )
                                                     {                                                        
-                                                        @Html.ActionLink("Add Return", "ReturnPossession", new {id = item.PossessionID})
+                                                        @Html.ActionLink("RETURN", "ReturnPossession", new {id = item.PossessionID})
                                                         <span>|</span>
-                                                        @Html.ActionLink("Add Notice", "AddNotice", new {id = item.PossessionID})
+                                                        @Html.ActionLink("NOTICE", "AddNotice", new {id = item.PossessionID})
                                                     }
                                                 </td>
                                             </tr>

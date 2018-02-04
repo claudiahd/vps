@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using VPS.Models;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 
 namespace VPS.Controllers
@@ -19,11 +20,11 @@ namespace VPS.Controllers
 
         // GET: Users
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             List<MyUser> myUsers = new List<MyUser>();
 
-            foreach (var user in db.Users.OrderBy(u => u.UserTypeID).ToList())
+            foreach (var user in await db.Users.OrderBy(u => u.UserTypeID).ToListAsync())
             {
                 MyUser u = new MyUser(user);
                 myUsers.Add(u);
@@ -33,13 +34,13 @@ namespace VPS.Controllers
         }
 
         // GET: Users/Details/5                
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Users dbUser = db.Users.Find(id);
+            Users dbUser = await db.Users.FindAsync(id);
             if (dbUser == null)
             {
                 return HttpNotFound();
@@ -74,7 +75,7 @@ namespace VPS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Name,EmailAddress,ReEmailAddress,Password,VerifyPassword,UserTypeID,Active")] MyUser myUser)
+        public async Task<ActionResult> Create([Bind(Include = "UserID,Name,EmailAddress,ReEmailAddress,Password,VerifyPassword,UserTypeID,Active")] MyUser myUser)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +91,7 @@ namespace VPS.Controllers
                 dbUser.UserTypeID = myUser.UserTypeID;
 
                 db.Users.Add(dbUser);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             else
@@ -102,13 +103,13 @@ namespace VPS.Controllers
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Users users = db.Users.Find(id);
+            Users users = await db.Users.FindAsync(id);
             if (users == null)
             {
                 return HttpNotFound();
@@ -131,7 +132,7 @@ namespace VPS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Name,EmailAddress,Password,UserTypeID,Active")] MyUser user)
+        public async Task<ActionResult> Edit([Bind(Include = "UserID,Name,EmailAddress,Password,UserTypeID,Active")] MyUser user)
         {
             if (ModelState.IsValid)
             {
@@ -142,7 +143,7 @@ namespace VPS.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                Users dbUser = db.Users.Find(user.UserID);
+                Users dbUser = await db.Users.FindAsync(user.UserID);
 
                 if (dbUser == null)
                 {
@@ -164,7 +165,7 @@ namespace VPS.Controllers
                 }
 
                 db.Entry(dbUser).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -172,13 +173,13 @@ namespace VPS.Controllers
 
         // GET: Users/Delete/5
 
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Users users = db.Users.Find(id);
+            Users users = await db.Users.FindAsync(id);
             if (users == null)
             {
                 return HttpNotFound();
@@ -192,9 +193,9 @@ namespace VPS.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Users users = db.Users.Find(id);
+            Users users = await db.Users.FindAsync(id);
             db.Users.Remove(users);
             db.SaveChanges();
             return RedirectToAction("Index");

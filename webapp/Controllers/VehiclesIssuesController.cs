@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VPS.Models;
@@ -16,9 +17,9 @@ namespace VPS2.Controllers
         private VPSEntities db = new VPSEntities();
 
         // GET: VehiclesIssues
-        public ActionResult Index(int? id)
+        public async Task<ActionResult> Index(int? id)
         {
-            Vehicles dbVehicles = db.Vehicles.Find(id);
+            Vehicles dbVehicles =await db.Vehicles.FindAsync(id);
             if (dbVehicles == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -28,13 +29,13 @@ namespace VPS2.Controllers
         }
 
         // GET: VehiclesIssues/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VehiclesIssues vehiclesIssues = db.VehiclesIssues.Find(id);
+            VehiclesIssues vehiclesIssues = await db.VehiclesIssues.FindAsync(id);
             if (vehiclesIssues == null)
             {
                 return HttpNotFound();
@@ -56,7 +57,7 @@ namespace VPS2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]        
-        public ActionResult Create(FormCollection form, HttpPostedFileBase file)
+        public async Task<ActionResult> Create(FormCollection form, HttpPostedFileBase file)
         {
             VehiclesIssues dbVehicleIssues = new VehiclesIssues();
 
@@ -75,7 +76,7 @@ namespace VPS2.Controllers
                 }
 
                 db.VehiclesIssues.Add(dbVehicleIssues);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
             }
 
@@ -83,13 +84,13 @@ namespace VPS2.Controllers
         }
 
         // GET: VehiclesIssues/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VehiclesIssues vehiclesIssues = db.VehiclesIssues.Find(id);
+            VehiclesIssues vehiclesIssues =await db.VehiclesIssues.FindAsync(id);
             if (vehiclesIssues == null)
             {
                 return HttpNotFound();
@@ -103,16 +104,16 @@ namespace VPS2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VehicleIssueID,VehicleID,IssueDetails,ImagePath,ImageThumbnailPath,IssueReportDate,IsIssueFixed,IssueFixeDate")] VehiclesIssues vehiclesIssues)
+        public async Task<ActionResult> Edit([Bind(Include = "VehicleIssueID,VehicleID,IssueDetails,ImagePath,ImageThumbnailPath,IssueReportDate,IsIssueFixed,IssueFixeDate")] VehiclesIssues vehiclesIssues)
         {
             if (ModelState.IsValid)
             {
-                VehiclesIssues dbVehiclesIssues = db.VehiclesIssues.Find(vehiclesIssues.VehicleIssueID);
+                VehiclesIssues dbVehiclesIssues = await db.VehiclesIssues.FindAsync(vehiclesIssues.VehicleIssueID);
                 dbVehiclesIssues.IssueDetails = vehiclesIssues.IssueDetails;
                 dbVehiclesIssues.IsIssueFixed = vehiclesIssues.IsIssueFixed;
                 dbVehiclesIssues.IssueFixeDate = vehiclesIssues.IssueFixeDate;
                 db.Entry(dbVehiclesIssues).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
                 return RedirectToAction("Index", new { id = vehiclesIssues.VehicleID });
             }
@@ -121,13 +122,13 @@ namespace VPS2.Controllers
         }
 
         // GET: VehiclesIssues/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VehiclesIssues vehiclesIssues = db.VehiclesIssues.Find(id);
+            VehiclesIssues vehiclesIssues = await db.VehiclesIssues.FindAsync(id);
             if (vehiclesIssues == null)
             {
                 return HttpNotFound();
@@ -138,11 +139,11 @@ namespace VPS2.Controllers
         // POST: VehiclesIssues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            VehiclesIssues vehiclesIssues = db.VehiclesIssues.Find(id);
+            VehiclesIssues vehiclesIssues =await db.VehiclesIssues.FindAsync(id);
             db.VehiclesIssues.Remove(vehiclesIssues);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index", new { id = vehiclesIssues.VehicleID });
         }
 

@@ -15,6 +15,7 @@ using VPS.Models.DTOs;
 using ConsumedByCode.SignatureToImage;
 using Newtonsoft.Json.Linq;
 using System.Web.Script.Serialization;
+using System.Threading.Tasks;
 
 namespace VPS.Controllers
 {
@@ -24,14 +25,14 @@ namespace VPS.Controllers
         private VPSEntities db = new VPSEntities();
 
         // GET: Possessions
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var possessions = db.Possessions.Include(p => p.Drivers).Include(p => p.Vehicles).Include(p => p.Users).Include(p => p.Users1).Include(p => p.PossessionsIssues).OrderByDescending(p=> p.PossessionID).ToList();
-            List<MyPossession> myPossessions = new List<MyPossession>();
+            var possessions = await db.Possessions.Include(p => p.Drivers).Include(p => p.Vehicles).Include(p => p.Users).Include(p => p.Users1).Include(p => p.PossessionsIssues).OrderByDescending(p => p.PossessionID).ToListAsync();
+            List<PossessionDto> myPossessions = new List<PossessionDto>();
 
             foreach (var p in possessions)
             {
-                myPossessions.Add(new MyPossession(p));
+                myPossessions.Add(new PossessionDto(p));
             }
 
             return View(myPossessions);
@@ -39,14 +40,14 @@ namespace VPS.Controllers
         }
 
         // GET: Possessions
-        public ActionResult PossessionByVehicle(int? id)
+        public async Task<ActionResult> PossessionByVehicle(int? id)
         {
-            var possessions = db.Possessions.Include(p => p.Drivers).Include(p => p.Vehicles).Include(p => p.Users).Include(p => p.Users1).Include(p => p.PossessionsIssues).OrderByDescending(p => p.PossessionID).Where(p => p.VehicleID == id).ToList();
-            List<MyPossession> myPossessions = new List<MyPossession>();
+            var possessions = await db.Possessions.Include(p => p.Drivers).Include(p => p.Vehicles).Include(p => p.Users).Include(p => p.Users1).Include(p => p.PossessionsIssues).OrderByDescending(p => p.PossessionID).Where(p => p.VehicleID == id).ToListAsync();
+            List<PossessionDto> myPossessions = new List<PossessionDto>();
 
             foreach (var p in possessions)
             {
-                myPossessions.Add(new MyPossession(p));
+                myPossessions.Add(new PossessionDto(p));
             }
 
             return View(myPossessions);
@@ -54,44 +55,46 @@ namespace VPS.Controllers
         }
 
         // GET: Possessions/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Possessions possessions = db.Possessions.Find(id);
+            Possessions possessions = await db.Possessions.FindAsync(id);
             if (possessions == null)
             {
                 return HttpNotFound();
             }
 
-            return View(new MyPossession(possessions));
+            return View(new PossessionDto(possessions));
         }
 
         // GET: Possessions/ReturnPossession/5
-        public ActionResult ReturnPossession(int? id)
+        public async Task<ActionResult> ReturnPossession(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Possessions possessions = db.Possessions.Find(id);
+            Possessions possessions = await db.Possessions.FindAsync(id);
             if (possessions == null)
             {
                 return HttpNotFound();
             }
-            MyPossession myPossession = new MyPossession(possessions);
+            PossessionDto myPossession = new PossessionDto(possessions);
             return View(myPossession);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ReturnPossession(MyPossession myPossessionReturn)
+        public async Task<ActionResult> ReturnPossession(PossessionDto myPossessionReturn)
         {
             if (ModelState.IsValid)
-             {
-                string userId = db.Users.FirstOrDefault().UserID.ToString();
+            {
+                Users user = await db.Users.FirstOrDefaultAsync();
+                string userId = user != null ? user.UserID.ToString() : "1";
+
                 if (Request.Cookies["LoginUserID"] != null)
                 {
                     userId = Request.Cookies["LoginUserID"].Value;
@@ -102,7 +105,7 @@ namespace VPS.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                Possessions possessions = db.Possessions.Find(myPossessionReturn.PossessionID);
+                Possessions possessions = await db.Possessions.FindAsync(myPossessionReturn.PossessionID);
                 if (possessions == null)
                 {
                     return HttpNotFound();
@@ -115,19 +118,20 @@ namespace VPS.Controllers
                 if (DateTime.TryParse(myPossessionReturn.ReturnTime, out time))
                 {
                     date = date.AddHours(time.Hour);
-                    date = date.AddMinutes(time.Minute);    
+                    date = date.AddMinutes(time.Minute);
                 }
                 else
                 {
                     ModelState.AddModelError("", "Invalid Time");
                     return View();
-                }                
+                }
 
                 possessions.ReturnDateTime = date;
 
                 possessions.IsReturn = possessions.Vehicles.IsAvailable = true;
                 possessions.Vehicles.LastODOMeterReading =
                     possessions.ODOMeterReturn = myPossessionReturn.ODOMeterReturn;
+                possessions.Vehicles.EngineServiceDueKM = myPossessionReturn.ServiceDue;
                 possessions.ETagHolderReturn = myPossessionReturn.ETagHolderReturn;
                 possessions.FootMattsReturn = myPossessionReturn.FootMattsReturn;
                 possessions.CleanlinessReturn = myPossessionReturn.CleanlinessReturn;
@@ -138,41 +142,41 @@ namespace VPS.Controllers
                 possessions.ReturnByUserID = userId != string.Empty ? Convert.ToInt32(userId) : 1;
 
                 db.Entry(possessions).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             else
             {
                 return View();
-            }            
+            }
         }
 
         // GET: Possessions/AddNotice/5
-        public ActionResult AddNotice(int? id)
+        public async Task<ActionResult> AddNotice(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Possessions possessions = db.Possessions.Find(id);
+            Possessions possessions = await db.Possessions.FindAsync(id);
             if (possessions == null)
             {
                 return HttpNotFound();
             }
-            MyPossession myPossession = new MyPossession(possessions);
+            PossessionDto myPossession = new PossessionDto(possessions);
             return View(myPossession);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddNotice(MyPossession myPossessionReturn)
+        public async Task<ActionResult> AddNotice(PossessionDto myPossessionReturn)
         {
 
             if (myPossessionReturn.PossessionID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Possessions possessions = db.Possessions.Find(myPossessionReturn.PossessionID);
+            Possessions possessions = await db.Possessions.FindAsync(myPossessionReturn.PossessionID);
             if (possessions == null)
             {
                 return HttpNotFound();
@@ -182,12 +186,12 @@ namespace VPS.Controllers
             possessions.NoticeRemarks = myPossessionReturn.NoticeRemarks;
 
             db.Entry(possessions).State = EntityState.Modified;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         // GET: Possessions/Create
-        public ActionResult Create(int? driverId, int? vehicleId)
+        public async Task<ActionResult> Create(int? driverId, int? vehicleId)
         {
             string fromPossession = "";
             ViewBag.driverId = driverId;
@@ -199,16 +203,16 @@ namespace VPS.Controllers
 
             if (fromPossession == "possessionFlow")
             {
-                MyPossession myPossession1 = (MyPossession)TempData["PossessionData"];
+                PossessionDto myPossession1 = (PossessionDto)TempData["PossessionData"];
 
                 return View(myPossession1);
             }
             else
             {
-                MyPossession myPossession = new MyPossession();
+                PossessionDto myPossession = new PossessionDto();
 
-                var driverListFromDB = db.Drivers.ToList();
-                var vehicleListFromDB = db.V_AvailableVehicles.ToList();
+                var driverListFromDB = await db.Drivers.Where(d => d.IsActive == true).ToListAsync();
+                var vehicleListFromDB = await db.V_AvailableVehicles.ToListAsync();
 
                 DropDownList ddList = new DropDownList();
                 ddList.key = -1;
@@ -247,7 +251,6 @@ namespace VPS.Controllers
                 //ViewBag.ReturnByUserID = new SelectList(db.Users, "UserID", "Name");
                 return View(myPossession);
             }
-            return null;
         }
 
         // POST: Possessions/Create
@@ -255,7 +258,7 @@ namespace VPS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection form)
+        public async Task<ActionResult> Create(FormCollection form)
         {
 
             if (ModelState.IsValid)
@@ -268,7 +271,7 @@ namespace VPS.Controllers
 
                 Possessions dbPossesions = new Possessions();
                 dbPossesions.DriverID = Convert.ToInt32(form["selectedDriver"].ToString());
-                dbPossesions.Vehicles = db.Vehicles.Find(Convert.ToInt32(form["selectedVehicle"].ToString()));
+                dbPossesions.Vehicles = await db.Vehicles.FindAsync(Convert.ToInt32(form["selectedVehicle"].ToString()));
                 dbPossesions.RegistrationNo = form["vehicleReg"];
 
 
@@ -278,7 +281,7 @@ namespace VPS.Controllers
                 date = date.AddMinutes(time.Minute);
                 dbPossesions.PossessionDateTime = date;
 
-                dbPossesions.ODOMeterPossissionTime = (form["vehicleFirstODOMeterReading"] != "") ? (float)Convert.ToDecimal(form["vehicleFirstODOMeterReading"]) : 00;
+                dbPossesions.ODOMeterPossissionTime = (form["LastODOMeterReading"] != "") ? (float)Convert.ToDecimal(form["LastODOMeterReading"]) : 00;
                 dbPossesions.ETagHolderPossissionTime = form["ETagHolder"] == "false" ? false : true;
                 dbPossesions.FootMattsPossissionTime = form["FootMatts"] == "false" ? false : true;
                 dbPossesions.CleanlinessPossissionTime = form["clean"] == "false" ? false : true;
@@ -309,6 +312,14 @@ namespace VPS.Controllers
                     dbPossesions.PossessionsIssues.Add(pTimeIssue);
                 }
 
+                foreach (var vImages in dbPossesions.Vehicles.VehiclesImages)
+                {
+                    PossessionsImages pTimeImg = new PossessionsImages();
+                    pTimeImg.PossessionTimeImagePath = vImages.ImagePath;
+                    pTimeImg.ReturnTimeImagePath = "";
+                    dbPossesions.PossessionsImages.Add(pTimeImg);
+                }
+
                 if (Request.Form["addDriver"] != null)
                 {
                     TempData["PossessionData"] = dbPossesions;
@@ -319,7 +330,7 @@ namespace VPS.Controllers
                     dbPossesions.Vehicles.IsAvailable = false;
                     db.Possessions.Add(dbPossesions);
 
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
 
                     return RedirectToAction("Index");
 
@@ -394,34 +405,35 @@ namespace VPS.Controllers
         //}
 
         [HttpPost]
-        public JsonResult DriverInfo(int driverId)
+        public async Task<JsonResult> DriverInfo(int driverId)
         {
             if (driverId != -1)
             {
                 TempData["driverId"] = driverId;
-                var driverDetail = db.Drivers.FirstOrDefault(x => x.DriverID == driverId);
-                MyDriver myDriver = new MyDriver();
+                var driverDetail = await db.Drivers.FirstOrDefaultAsync(x => x.DriverID == driverId);
+                DriverDto myDriver = new DriverDto();
                 myDriver.DriverID = driverId;
                 myDriver.GivenName = driverDetail.GivenName;
-                myDriver.MiddleName = driverDetail.MiddleName;
+                myDriver.SurName = driverDetail.SurName;
                 myDriver.Address = driverDetail.Address + ", " + driverDetail.Suburb + ", " + driverDetail.State + " " + driverDetail.Postcode;
                 myDriver.MobileNo = driverDetail.MobileNo;
                 myDriver.LicenceNo = driverDetail.LicenceNo;
 
                 return Json(myDriver, JsonRequestBehavior.AllowGet);
             }
-            return Json(new MyDriver(), JsonRequestBehavior.AllowGet);
+            return Json(new DriverDto(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult VehicleInfo(int vehicleId)
+        public async Task<JsonResult> VehicleInfo(int vehicleId)
         {
             if (vehicleId != -1)
             {
                 TempData["vehicleId"] = vehicleId;
-                var vehicleDetail = db.Vehicles.FirstOrDefault(x => x.VehicleID == vehicleId);
-                IList<VehiclesIssues> vehicleIssues = db.VehiclesIssues.Where(x => x.VehicleID == vehicleId && x.IsIssueFixed == false).ToList();
-                MyVehicle myVehicle = new MyVehicle();
+                var vehicleDetail = await db.Vehicles.FirstOrDefaultAsync(x => x.VehicleID == vehicleId);
+                IList<VehiclesIssues> vehicleIssues = await db.VehiclesIssues.Where(x => x.VehicleID == vehicleId && x.IsIssueFixed == false).ToListAsync();
+                IList<VehiclesImages> vehicleImages = await db.VehiclesImages.Where(x => x.VehicleID == vehicleId).ToListAsync();
+                VehicleDto myVehicle = new VehicleDto();
                 myVehicle.vehicleIssues = new List<VehiclesIssues>();
                 foreach (var item in vehicleIssues)
                 {
@@ -431,7 +443,13 @@ namespace VPS.Controllers
                     myVehicle.vehicleIssues.Add(vi);
                 }
 
-
+                myVehicle.vehicleImages = new List<VehiclesImages>();
+                foreach (var item in vehicleImages)
+                {
+                    VehiclesImages vImg = new VehiclesImages();
+                    vImg.ImagePath = item.ImagePath;
+                    myVehicle.vehicleImages.Add(vImg);
+                }
 
                 myVehicle.RegistrationNo = vehicleDetail.RegistrationNo;
                 myVehicle.Make = vehicleDetail.Make;
@@ -439,13 +457,14 @@ namespace VPS.Controllers
                 myVehicle.Year = vehicleDetail.Year;
                 myVehicle.Color = vehicleDetail.Color;
                 myVehicle.FirstODOMeterReading = vehicleDetail.FirstODOMeterReading;
+                myVehicle.LastODOMeterReading = vehicleDetail.LastODOMeterReading;
                 myVehicle.EngineServiceDueKM = vehicleDetail.EngineServiceDueKM;
                 myVehicle.ETagHolder = vehicleDetail.ETagHolder == null ? false : (bool)vehicleDetail.ETagHolder;
                 myVehicle.FootMatts = vehicleDetail.FootMatts == null ? false : (bool)vehicleDetail.FootMatts;
 
                 return Json(myVehicle, JsonRequestBehavior.AllowGet);
             }
-            return Json(new MyVehicle(), JsonRequestBehavior.AllowGet);
+            return Json(new VehicleDto(), JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
@@ -458,7 +477,7 @@ namespace VPS.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public RedirectToRouteResult CreateDriver([Bind(Include = "DriverID,GivenName,MiddleName,SurName,DateOfBirth,Address,Suburb,State,Postcode,LicenceNo,MobileNo,EmergencyContactName,EmergencyContactRelation,EmergencyContactMobileNo,EmergencyContactAddress,UberID,UberIDPassword,EmailAddress")] MyDriver myDriver)
+        public async Task<RedirectToRouteResult> CreateDriver([Bind(Include = "DriverID,GivenName,MiddleName,SurName,DateOfBirth,Address,Suburb,State,Postcode,LicenceNo,MobileNo,EmergencyContactName,EmergencyContactRelation,EmergencyContactMobileNo,EmergencyContactAddress,UberID,UberIDPassword,EmailAddress")] DriverDto myDriver)
         {
             string from = Request.QueryString["from"];
             int newDriverId = -1;
@@ -485,11 +504,8 @@ namespace VPS.Controllers
                 dbDrivers.EmergencyContactMobileNo = myDriver.EmergencyContactMobileNo;
                 dbDrivers.EmergencyContactAddress = myDriver.EmergencyContactAddress;
 
-
-
-
                 db.Drivers.Add(dbDrivers);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 newDriverId = dbDrivers.DriverID;
                 TempData["DriverIdAdded"] = newDriverId;
                 return RedirectToAction("Create", new { @driverId = newDriverId, @vehicleId = TempData["vehicleId"] });
@@ -501,7 +517,7 @@ namespace VPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public RedirectToRouteResult CreateVehicleIssue(FormCollection form, HttpPostedFileBase file)
+        public async Task<RedirectToRouteResult> CreateVehicleIssue(FormCollection form, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -521,7 +537,7 @@ namespace VPS.Controllers
 
 
                 db.VehiclesIssues.Add(dbVehicleIssues);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
                 return RedirectToAction("Create", new { @newDriverId = TempData["DriverIdAdded"], @vehicleId = TempData["vehicleId"], @driverId = TempData["driverId"] });
 
@@ -530,5 +546,29 @@ namespace VPS.Controllers
 
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<RedirectToRouteResult> CreateVehicleImage(FormCollection form, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+
+                VehiclesImages dbVehicleImage = new VehiclesImages();
+                if (file != null)
+                {
+                    string name = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    string extension = Path.GetExtension(file.FileName);
+
+                    file.SaveAs(HttpContext.Server.MapPath("~/Images/") + name + extension);
+                    dbVehicleImage.ImagePath = "/Images/" + name + extension;
+                    dbVehicleImage.VehicleID = Convert.ToInt32(TempData["vehicleId"]);
+
+                    db.VehiclesImages.Add(dbVehicleImage);
+                    await db.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Create", new { @newDriverId = TempData["DriverIdAdded"], @vehicleId = TempData["vehicleId"], @driverId = TempData["driverId"] });
+        }
     }
 }

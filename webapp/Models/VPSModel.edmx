@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VPSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VPS.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Drivers">
           <Key>
             <PropertyRef Name="DriverID" />
@@ -138,7 +138,7 @@
           <Property Name="IssueFixeDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'VPS20171123.dbo.V_AvailableVehicles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'VPS_DB_01022018.dbo.V_AvailableVehicles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_AvailableVehicles">
           <Key>
             <PropertyRef Name="VehicleID" />
@@ -152,7 +152,7 @@ warning 6002: The table/view 'VPS20171123.dbo.V_AvailableVehicles' does not have
           <Property Name="IsAvailable" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'VPS20171123.dbo.V_CurrentPossessions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'VPS_DB_01022018.dbo.V_CurrentPossessions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_CurrentPossessions">
           <Key>
             <PropertyRef Name="PossessionID" />
@@ -171,22 +171,26 @@ warning 6002: The table/view 'VPS20171123.dbo.V_CurrentPossessions' does not hav
           <Property Name="Time" Type="time" Precision="7" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'VPS_DB_01022018.dbo.V_NoticedVehicles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_NoticedVehicles">
           <Key>
             <PropertyRef Name="PossessionID" />
             <PropertyRef Name="RegistrationNo" />
+            <PropertyRef Name="DriverName" />
             <PropertyRef Name="DateOfBirth" />
           </Key>
           <Property Name="PossessionID" Type="int" Nullable="false" />
           <Property Name="RegistrationNo" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DriverName" Type="nvarchar" MaxLength="302" />
+          <Property Name="DriverName" Type="nvarchar" MaxLength="302" Nullable="false" />
           <Property Name="DateOfBirth" Type="date" Nullable="false" />
           <Property Name="MobileNo" Type="nvarchar" MaxLength="50" />
-          <Property Name="NoticeDate" Type="datetime" />
+          <Property Name="NoticeDate" Type="date" />
           <Property Name="NoticeRemarks" Type="nvarchar" MaxLength="500" />
           <Property Name="ReturnDateTime" Type="datetime" />
           <Property Name="IsReturn" Type="bit" />
+          <Property Name="Make" Type="nvarchar" MaxLength="50" />
+          <Property Name="Model" Type="nvarchar" MaxLength="50" />
+          <Property Name="Year" Type="int" />
         </EntityType>
         <Association Name="FK_Possessions_Drivers">
           <End Role="Drivers" Type="Self.Drivers" Multiplicity="1" />
@@ -284,7 +288,7 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VPSModelStoreContainer">
+        <EntityContainer Name="VPSModelsStoreContainer">
           <EntitySet Name="Drivers" EntityType="Self.Drivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Possessions" EntityType="Self.Possessions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PossessionsImages" EntityType="Self.PossessionsImages" Schema="dbo" store:Type="Tables" />
@@ -326,7 +330,10 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
     [V_NoticedVehicles].[NoticeDate] AS [NoticeDate], 
     [V_NoticedVehicles].[NoticeRemarks] AS [NoticeRemarks], 
     [V_NoticedVehicles].[ReturnDateTime] AS [ReturnDateTime], 
-    [V_NoticedVehicles].[IsReturn] AS [IsReturn]
+    [V_NoticedVehicles].[IsReturn] AS [IsReturn], 
+    [V_NoticedVehicles].[Make] AS [Make], 
+    [V_NoticedVehicles].[Model] AS [Model], 
+    [V_NoticedVehicles].[Year] AS [Year]
     FROM [dbo].[V_NoticedVehicles] AS [V_NoticedVehicles]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Possessions_Drivers" Association="Self.FK_Possessions_Drivers">
@@ -362,55 +369,11 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
             <End Role="VehiclesIssues" EntitySet="VehiclesIssues" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="VPSModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-        <EntityContainer Name="VPSEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-          <EntitySet Name="Drivers" EntityType="VPSModel.Drivers" />
-          <EntitySet Name="Possessions" EntityType="VPSModel.Possessions" />
-          <EntitySet Name="PossessionsImages" EntityType="VPSModel.PossessionsImages" />
-          <EntitySet Name="PossessionsIssues" EntityType="VPSModel.PossessionsIssues" />
-          <EntitySet Name="Users" EntityType="VPSModel.Users" />
-          <EntitySet Name="Vehicles" EntityType="VPSModel.Vehicles" />
-          <EntitySet Name="VehiclesImages" EntityType="VPSModel.VehiclesImages" />
-          <EntitySet Name="VehiclesIssues" EntityType="VPSModel.VehiclesIssues" />
-          <EntitySet Name="V_AvailableVehicles" EntityType="VPSModel.V_AvailableVehicles" />
-          <EntitySet Name="V_CurrentPossessions" EntityType="VPSModel.V_CurrentPossessions" />
-          <EntitySet Name="V_NoticedVehicles" EntityType="VPSModel.V_NoticedVehicles" />
-          <AssociationSet Name="FK_Possessions_Drivers" Association="VPSModel.FK_Possessions_Drivers">
-            <End Role="Drivers" EntitySet="Drivers" />
-            <End Role="Possessions" EntitySet="Possessions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Possessions_Vehicles" Association="VPSModel.FK_Possessions_Vehicles">
-            <End Role="Vehicles" EntitySet="Vehicles" />
-            <End Role="Possessions" EntitySet="Possessions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PossessionsBy_User" Association="VPSModel.FK_PossessionsBy_User">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Possessions" EntitySet="Possessions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PossessionsImages_Possessions" Association="VPSModel.FK_PossessionsImages_Possessions">
-            <End Role="Possessions" EntitySet="Possessions" />
-            <End Role="PossessionsImages" EntitySet="PossessionsImages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PossessionsIssues_Possessions" Association="VPSModel.FK_PossessionsIssues_Possessions">
-            <End Role="Possessions" EntitySet="Possessions" />
-            <End Role="PossessionsIssues" EntitySet="PossessionsIssues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PossessionsReturnBy_Users" Association="VPSModel.FK_PossessionsReturnBy_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Possessions" EntitySet="Possessions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VehiclesImages_Vehicles" Association="VPSModel.FK_VehiclesImages_Vehicles">
-            <End Role="Vehicles" EntitySet="Vehicles" />
-            <End Role="VehiclesImages" EntitySet="VehiclesImages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VehiclesIssues_Vehicles" Association="VPSModel.FK_VehiclesIssues_Vehicles">
-            <End Role="Vehicles" EntitySet="Vehicles" />
-            <End Role="VehiclesIssues" EntitySet="VehiclesIssues" />
-          </AssociationSet>
-        </EntityContainer>
+      <Schema Namespace="VPS.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Drivers">
           <Key>
             <PropertyRef Name="DriverID" />
@@ -418,7 +381,7 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           <Property Name="DriverID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GivenName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MiddleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SurName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -434,8 +397,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           <Property Name="UberIDPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="EmailAddress" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <Property Name="AvatarPath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Possessions" Relationship="VPSModel.FK_Possessions_Drivers" FromRole="Drivers" ToRole="Possessions" />
           <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Possessions" Relationship="Self.FK_Possessions_Drivers" FromRole="Drivers" ToRole="Possessions" />
         </EntityType>
         <EntityType Name="Possessions">
           <Key>
@@ -444,7 +407,7 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           <Property Name="PossessionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DriverID" Type="Int32" Nullable="false" />
           <Property Name="VehicleID" Type="Int32" Nullable="false" />
-          <Property Name="RegistrationNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PossessionDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ODOMeterPossissionTime" Type="Single" Nullable="false" />
           <Property Name="ETagHolderPossissionTime" Type="Boolean" />
@@ -467,12 +430,12 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           <Property Name="ReturnByUserID" Type="Int32" />
           <Property Name="PossessionTimeDriverSignature" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PossessionTimeContractorSignature" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Drivers" Relationship="VPSModel.FK_Possessions_Drivers" FromRole="Possessions" ToRole="Drivers" />
-          <NavigationProperty Name="Vehicles" Relationship="VPSModel.FK_Possessions_Vehicles" FromRole="Possessions" ToRole="Vehicles" />
-          <NavigationProperty Name="Users" Relationship="VPSModel.FK_PossessionsBy_User" FromRole="Possessions" ToRole="Users" />
-          <NavigationProperty Name="PossessionsImages" Relationship="VPSModel.FK_PossessionsImages_Possessions" FromRole="Possessions" ToRole="PossessionsImages" />
-          <NavigationProperty Name="PossessionsIssues" Relationship="VPSModel.FK_PossessionsIssues_Possessions" FromRole="Possessions" ToRole="PossessionsIssues" />
-          <NavigationProperty Name="Users1" Relationship="VPSModel.FK_PossessionsReturnBy_Users" FromRole="Possessions" ToRole="Users" />
+          <NavigationProperty Name="Drivers" Relationship="Self.FK_Possessions_Drivers" FromRole="Possessions" ToRole="Drivers" />
+          <NavigationProperty Name="Vehicles" Relationship="Self.FK_Possessions_Vehicles" FromRole="Possessions" ToRole="Vehicles" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_PossessionsBy_User" FromRole="Possessions" ToRole="Users" />
+          <NavigationProperty Name="PossessionsImages" Relationship="Self.FK_PossessionsImages_Possessions" FromRole="Possessions" ToRole="PossessionsImages" />
+          <NavigationProperty Name="PossessionsIssues" Relationship="Self.FK_PossessionsIssues_Possessions" FromRole="Possessions" ToRole="PossessionsIssues" />
+          <NavigationProperty Name="Users1" Relationship="Self.FK_PossessionsReturnBy_Users" FromRole="Possessions" ToRole="Users" />
         </EntityType>
         <EntityType Name="PossessionsImages">
           <Key>
@@ -480,11 +443,11 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </Key>
           <Property Name="PossessionImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PossessionID" Type="Int32" Nullable="false" />
-          <Property Name="PossessionTimeImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PossessionTimeImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PossessionTimeImagePathThumbnail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ReturnTimeImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReturnTimeImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ReturnTimeImagePathThumbnail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Possessions" Relationship="VPSModel.FK_PossessionsImages_Possessions" FromRole="PossessionsImages" ToRole="Possessions" />
+          <NavigationProperty Name="Possessions" Relationship="Self.FK_PossessionsImages_Possessions" FromRole="PossessionsImages" ToRole="Possessions" />
         </EntityType>
         <EntityType Name="PossessionsIssues">
           <Key>
@@ -492,32 +455,32 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </Key>
           <Property Name="PossessionIssueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PossessionID" Type="Int32" Nullable="false" />
-          <Property Name="IssueDetails" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IssueDetails" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsPossessionTimeIssue" Type="Boolean" Nullable="false" />
           <Property Name="IsReturnTimeIssue" Type="Boolean" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ImagePathThumbnail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Possessions" Relationship="VPSModel.FK_PossessionsIssues_Possessions" FromRole="PossessionsIssues" ToRole="Possessions" />
+          <NavigationProperty Name="Possessions" Relationship="Self.FK_PossessionsIssues_Possessions" FromRole="PossessionsIssues" ToRole="Possessions" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="UserTypeID" Type="Int32" Nullable="false" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Possessions" Relationship="VPSModel.FK_PossessionsBy_User" FromRole="Users" ToRole="Possessions" />
-          <NavigationProperty Name="Possessions1" Relationship="VPSModel.FK_PossessionsReturnBy_Users" FromRole="Users" ToRole="Possessions" />
+          <NavigationProperty Name="Possessions" Relationship="Self.FK_PossessionsBy_User" FromRole="Users" ToRole="Possessions" />
+          <NavigationProperty Name="Possessions1" Relationship="Self.FK_PossessionsReturnBy_Users" FromRole="Users" ToRole="Possessions" />
         </EntityType>
         <EntityType Name="Vehicles">
           <Key>
             <PropertyRef Name="VehicleID" />
           </Key>
           <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RegistrationNo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RegistrationExpiryDate" Type="DateTime" Precision="0" />
           <Property Name="Make" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -531,10 +494,10 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           <Property Name="FootMatts" Type="Boolean" />
           <Property Name="IsAvailable" Type="Boolean" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Possessions" Relationship="VPSModel.FK_Possessions_Vehicles" FromRole="Vehicles" ToRole="Possessions" />
-          <NavigationProperty Name="VehiclesImages" Relationship="VPSModel.FK_VehiclesImages_Vehicles" FromRole="Vehicles" ToRole="VehiclesImages" />
-          <NavigationProperty Name="VehiclesIssues" Relationship="VPSModel.FK_VehiclesIssues_Vehicles" FromRole="Vehicles" ToRole="VehiclesIssues" />
           <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Possessions" Relationship="Self.FK_Possessions_Vehicles" FromRole="Vehicles" ToRole="Possessions" />
+          <NavigationProperty Name="VehiclesImages" Relationship="Self.FK_VehiclesImages_Vehicles" FromRole="Vehicles" ToRole="VehiclesImages" />
+          <NavigationProperty Name="VehiclesIssues" Relationship="Self.FK_VehiclesIssues_Vehicles" FromRole="Vehicles" ToRole="VehiclesIssues" />
         </EntityType>
         <EntityType Name="VehiclesImages">
           <Key>
@@ -542,8 +505,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </Key>
           <Property Name="VehicleImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VehicleID" Type="Int32" Nullable="false" />
-          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Vehicles" Relationship="VPSModel.FK_VehiclesImages_Vehicles" FromRole="VehiclesImages" ToRole="Vehicles" />
+          <Property Name="ImagePath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Vehicles" Relationship="Self.FK_VehiclesImages_Vehicles" FromRole="VehiclesImages" ToRole="Vehicles" />
         </EntityType>
         <EntityType Name="VehiclesIssues">
           <Key>
@@ -551,13 +514,13 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </Key>
           <Property Name="VehicleIssueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VehicleID" Type="Int32" Nullable="false" />
-          <Property Name="IssueDetails" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IssueDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ImageThumbnailPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IssueReportDate" Type="DateTime" Precision="3" />
           <Property Name="IsIssueFixed" Type="Boolean" Nullable="false" />
           <Property Name="IssueFixeDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Vehicles" Relationship="VPSModel.FK_VehiclesIssues_Vehicles" FromRole="VehiclesIssues" ToRole="Vehicles" />
+          <NavigationProperty Name="Vehicles" Relationship="Self.FK_VehiclesIssues_Vehicles" FromRole="VehiclesIssues" ToRole="Vehicles" />
         </EntityType>
         <EntityType Name="V_AvailableVehicles">
           <Key>
@@ -565,7 +528,7 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
             <PropertyRef Name="RegistrationNo" />
           </Key>
           <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RegistrationNo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Make" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Year" Type="Int32" />
@@ -580,7 +543,7 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </Key>
           <Property Name="PossessionID" Type="Int32" Nullable="false" />
           <Property Name="PossessionDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Rego" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rego" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DriverName" Type="String" MaxLength="302" FixedLength="false" Unicode="true" />
           <Property Name="DriverDateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="VehicleDetails" Type="String" MaxLength="132" FixedLength="false" Unicode="true" />
@@ -592,21 +555,25 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           <Key>
             <PropertyRef Name="PossessionID" />
             <PropertyRef Name="RegistrationNo" />
+            <PropertyRef Name="DriverName" />
             <PropertyRef Name="DateOfBirth" />
           </Key>
           <Property Name="PossessionID" Type="Int32" Nullable="false" />
-          <Property Name="RegistrationNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DriverName" Type="String" MaxLength="302" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DriverName" Type="String" MaxLength="302" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NoticeDate" Type="DateTime" Precision="3" />
+          <Property Name="NoticeDate" Type="DateTime" Precision="0" />
           <Property Name="NoticeRemarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ReturnDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsReturn" Type="Boolean" />
+          <Property Name="Make" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" />
         </EntityType>
         <Association Name="FK_Possessions_Drivers">
-          <End Type="VPSModel.Drivers" Role="Drivers" Multiplicity="1" />
-          <End Type="VPSModel.Possessions" Role="Possessions" Multiplicity="*" />
+          <End Role="Drivers" Type="Self.Drivers" Multiplicity="1" />
+          <End Role="Possessions" Type="Self.Possessions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Drivers">
               <PropertyRef Name="DriverID" />
@@ -617,8 +584,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Possessions_Vehicles">
-          <End Type="VPSModel.Vehicles" Role="Vehicles" Multiplicity="1" />
-          <End Type="VPSModel.Possessions" Role="Possessions" Multiplicity="*" />
+          <End Role="Vehicles" Type="Self.Vehicles" Multiplicity="1" />
+          <End Role="Possessions" Type="Self.Possessions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vehicles">
               <PropertyRef Name="VehicleID" />
@@ -629,8 +596,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PossessionsBy_User">
-          <End Type="VPSModel.Users" Role="Users" Multiplicity="0..1" />
-          <End Type="VPSModel.Possessions" Role="Possessions" Multiplicity="*" />
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Possessions" Type="Self.Possessions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="UserID" />
@@ -641,8 +608,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PossessionsImages_Possessions">
-          <End Type="VPSModel.Possessions" Role="Possessions" Multiplicity="1" />
-          <End Type="VPSModel.PossessionsImages" Role="PossessionsImages" Multiplicity="*" />
+          <End Role="Possessions" Type="Self.Possessions" Multiplicity="1" />
+          <End Role="PossessionsImages" Type="Self.PossessionsImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Possessions">
               <PropertyRef Name="PossessionID" />
@@ -653,8 +620,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PossessionsIssues_Possessions">
-          <End Type="VPSModel.Possessions" Role="Possessions" Multiplicity="1" />
-          <End Type="VPSModel.PossessionsIssues" Role="PossessionsIssues" Multiplicity="*" />
+          <End Role="Possessions" Type="Self.Possessions" Multiplicity="1" />
+          <End Role="PossessionsIssues" Type="Self.PossessionsIssues" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Possessions">
               <PropertyRef Name="PossessionID" />
@@ -665,8 +632,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PossessionsReturnBy_Users">
-          <End Type="VPSModel.Users" Role="Users" Multiplicity="0..1" />
-          <End Type="VPSModel.Possessions" Role="Possessions" Multiplicity="*" />
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Possessions" Type="Self.Possessions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="UserID" />
@@ -677,8 +644,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VehiclesImages_Vehicles">
-          <End Type="VPSModel.Vehicles" Role="Vehicles" Multiplicity="1" />
-          <End Type="VPSModel.VehiclesImages" Role="VehiclesImages" Multiplicity="*" />
+          <End Role="Vehicles" Type="Self.Vehicles" Multiplicity="1" />
+          <End Role="VehiclesImages" Type="Self.VehiclesImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vehicles">
               <PropertyRef Name="VehicleID" />
@@ -689,8 +656,8 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VehiclesIssues_Vehicles">
-          <End Type="VPSModel.Vehicles" Role="Vehicles" Multiplicity="1" />
-          <End Type="VPSModel.VehiclesIssues" Role="VehiclesIssues" Multiplicity="*" />
+          <End Role="Vehicles" Type="Self.Vehicles" Multiplicity="1" />
+          <End Role="VehiclesIssues" Type="Self.VehiclesIssues" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vehicles">
               <PropertyRef Name="VehicleID" />
@@ -700,191 +667,239 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <EntityContainer Name="VPSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Drivers" EntityType="Self.Drivers" />
+          <EntitySet Name="Possessions" EntityType="Self.Possessions" />
+          <EntitySet Name="PossessionsImages" EntityType="Self.PossessionsImages" />
+          <EntitySet Name="PossessionsIssues" EntityType="Self.PossessionsIssues" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicles" />
+          <EntitySet Name="VehiclesImages" EntityType="Self.VehiclesImages" />
+          <EntitySet Name="VehiclesIssues" EntityType="Self.VehiclesIssues" />
+          <EntitySet Name="V_AvailableVehicles" EntityType="Self.V_AvailableVehicles" />
+          <EntitySet Name="V_CurrentPossessions" EntityType="Self.V_CurrentPossessions" />
+          <EntitySet Name="V_NoticedVehicles" EntityType="Self.V_NoticedVehicles" />
+          <AssociationSet Name="FK_Possessions_Drivers" Association="Self.FK_Possessions_Drivers">
+            <End Role="Drivers" EntitySet="Drivers" />
+            <End Role="Possessions" EntitySet="Possessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Possessions_Vehicles" Association="Self.FK_Possessions_Vehicles">
+            <End Role="Vehicles" EntitySet="Vehicles" />
+            <End Role="Possessions" EntitySet="Possessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PossessionsBy_User" Association="Self.FK_PossessionsBy_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Possessions" EntitySet="Possessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PossessionsImages_Possessions" Association="Self.FK_PossessionsImages_Possessions">
+            <End Role="Possessions" EntitySet="Possessions" />
+            <End Role="PossessionsImages" EntitySet="PossessionsImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PossessionsIssues_Possessions" Association="Self.FK_PossessionsIssues_Possessions">
+            <End Role="Possessions" EntitySet="Possessions" />
+            <End Role="PossessionsIssues" EntitySet="PossessionsIssues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PossessionsReturnBy_Users" Association="Self.FK_PossessionsReturnBy_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Possessions" EntitySet="Possessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VehiclesImages_Vehicles" Association="Self.FK_VehiclesImages_Vehicles">
+            <End Role="Vehicles" EntitySet="Vehicles" />
+            <End Role="VehiclesImages" EntitySet="VehiclesImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VehiclesIssues_Vehicles" Association="Self.FK_VehiclesIssues_Vehicles">
+            <End Role="Vehicles" EntitySet="Vehicles" />
+            <End Role="VehiclesIssues" EntitySet="VehiclesIssues" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VPSModelStoreContainer" CdmEntityContainer="VPSEntities">
+        <EntityContainerMapping StorageEntityContainer="VPSModelsStoreContainer" CdmEntityContainer="VPSEntities">
           <EntitySetMapping Name="Drivers">
-            <EntityTypeMapping TypeName="VPSModel.Drivers">
+            <EntityTypeMapping TypeName="VPS.Models.Drivers">
               <MappingFragment StoreEntitySet="Drivers">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="UberIDPassword" ColumnName="UberIDPassword" />
-                <ScalarProperty Name="UberID" ColumnName="UberID" />
-                <ScalarProperty Name="EmergencyContactAddress" ColumnName="EmergencyContactAddress" />
-                <ScalarProperty Name="EmergencyContactMobileNo" ColumnName="EmergencyContactMobileNo" />
-                <ScalarProperty Name="EmergencyContactRelation" ColumnName="EmergencyContactRelation" />
-                <ScalarProperty Name="EmergencyContactName" ColumnName="EmergencyContactName" />
-                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-                <ScalarProperty Name="LicenceNo" ColumnName="LicenceNo" />
-                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="SurName" ColumnName="SurName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="GivenName" ColumnName="GivenName" />
                 <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="GivenName" ColumnName="GivenName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="LicenceNo" ColumnName="LicenceNo" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmergencyContactName" ColumnName="EmergencyContactName" />
+                <ScalarProperty Name="EmergencyContactRelation" ColumnName="EmergencyContactRelation" />
+                <ScalarProperty Name="EmergencyContactMobileNo" ColumnName="EmergencyContactMobileNo" />
+                <ScalarProperty Name="EmergencyContactAddress" ColumnName="EmergencyContactAddress" />
+                <ScalarProperty Name="UberID" ColumnName="UberID" />
+                <ScalarProperty Name="UberIDPassword" ColumnName="UberIDPassword" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Possessions">
-            <EntityTypeMapping TypeName="VPSModel.Possessions">
+            <EntityTypeMapping TypeName="VPS.Models.Possessions">
               <MappingFragment StoreEntitySet="Possessions">
-                <ScalarProperty Name="PossessionTimeContractorSignature" ColumnName="PossessionTimeContractorSignature" />
-                <ScalarProperty Name="PossessionTimeDriverSignature" ColumnName="PossessionTimeDriverSignature" />
-                <ScalarProperty Name="ReturnByUserID" ColumnName="ReturnByUserID" />
-                <ScalarProperty Name="PossessionByUserID" ColumnName="PossessionByUserID" />
-                <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
-                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
-                <ScalarProperty Name="TransmissionServiceDueReturn" ColumnName="TransmissionServiceDueReturn" />
-                <ScalarProperty Name="EngineServiceDueReturn" ColumnName="EngineServiceDueReturn" />
-                <ScalarProperty Name="CleanlinessReturn" ColumnName="CleanlinessReturn" />
-                <ScalarProperty Name="FootMattsReturn" ColumnName="FootMattsReturn" />
-                <ScalarProperty Name="ETagHolderReturn" ColumnName="ETagHolderReturn" />
-                <ScalarProperty Name="ODOMeterReturn" ColumnName="ODOMeterReturn" />
-                <ScalarProperty Name="ReturnDateTime" ColumnName="ReturnDateTime" />
-                <ScalarProperty Name="NoticeRemarks" ColumnName="NoticeRemarks" />
-                <ScalarProperty Name="NoticeDateReturn" ColumnName="NoticeDateReturn" />
-                <ScalarProperty Name="TransmissionServiceDuePossissionTime" ColumnName="TransmissionServiceDuePossissionTime" />
-                <ScalarProperty Name="EngineServiceDuePossissionTime" ColumnName="EngineServiceDuePossissionTime" />
-                <ScalarProperty Name="CleanlinessPossissionTime" ColumnName="CleanlinessPossissionTime" />
-                <ScalarProperty Name="FootMattsPossissionTime" ColumnName="FootMattsPossissionTime" />
-                <ScalarProperty Name="ETagHolderPossissionTime" ColumnName="ETagHolderPossissionTime" />
-                <ScalarProperty Name="ODOMeterPossissionTime" ColumnName="ODOMeterPossissionTime" />
-                <ScalarProperty Name="PossessionDateTime" ColumnName="PossessionDateTime" />
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
-                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
-                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
                 <ScalarProperty Name="PossessionID" ColumnName="PossessionID" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="PossessionDateTime" ColumnName="PossessionDateTime" />
+                <ScalarProperty Name="ODOMeterPossissionTime" ColumnName="ODOMeterPossissionTime" />
+                <ScalarProperty Name="ETagHolderPossissionTime" ColumnName="ETagHolderPossissionTime" />
+                <ScalarProperty Name="FootMattsPossissionTime" ColumnName="FootMattsPossissionTime" />
+                <ScalarProperty Name="CleanlinessPossissionTime" ColumnName="CleanlinessPossissionTime" />
+                <ScalarProperty Name="EngineServiceDuePossissionTime" ColumnName="EngineServiceDuePossissionTime" />
+                <ScalarProperty Name="TransmissionServiceDuePossissionTime" ColumnName="TransmissionServiceDuePossissionTime" />
+                <ScalarProperty Name="NoticeDateReturn" ColumnName="NoticeDateReturn" />
+                <ScalarProperty Name="NoticeRemarks" ColumnName="NoticeRemarks" />
+                <ScalarProperty Name="ReturnDateTime" ColumnName="ReturnDateTime" />
+                <ScalarProperty Name="ODOMeterReturn" ColumnName="ODOMeterReturn" />
+                <ScalarProperty Name="ETagHolderReturn" ColumnName="ETagHolderReturn" />
+                <ScalarProperty Name="FootMattsReturn" ColumnName="FootMattsReturn" />
+                <ScalarProperty Name="CleanlinessReturn" ColumnName="CleanlinessReturn" />
+                <ScalarProperty Name="EngineServiceDueReturn" ColumnName="EngineServiceDueReturn" />
+                <ScalarProperty Name="TransmissionServiceDueReturn" ColumnName="TransmissionServiceDueReturn" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
+                <ScalarProperty Name="PossessionByUserID" ColumnName="PossessionByUserID" />
+                <ScalarProperty Name="ReturnByUserID" ColumnName="ReturnByUserID" />
+                <ScalarProperty Name="PossessionTimeDriverSignature" ColumnName="PossessionTimeDriverSignature" />
+                <ScalarProperty Name="PossessionTimeContractorSignature" ColumnName="PossessionTimeContractorSignature" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PossessionsImages">
-            <EntityTypeMapping TypeName="VPSModel.PossessionsImages">
+            <EntityTypeMapping TypeName="VPS.Models.PossessionsImages">
               <MappingFragment StoreEntitySet="PossessionsImages">
-                <ScalarProperty Name="ReturnTimeImagePathThumbnail" ColumnName="ReturnTimeImagePathThumbnail" />
-                <ScalarProperty Name="ReturnTimeImagePath" ColumnName="ReturnTimeImagePath" />
-                <ScalarProperty Name="PossessionTimeImagePathThumbnail" ColumnName="PossessionTimeImagePathThumbnail" />
-                <ScalarProperty Name="PossessionTimeImagePath" ColumnName="PossessionTimeImagePath" />
-                <ScalarProperty Name="PossessionID" ColumnName="PossessionID" />
                 <ScalarProperty Name="PossessionImageID" ColumnName="PossessionImageID" />
+                <ScalarProperty Name="PossessionID" ColumnName="PossessionID" />
+                <ScalarProperty Name="PossessionTimeImagePath" ColumnName="PossessionTimeImagePath" />
+                <ScalarProperty Name="PossessionTimeImagePathThumbnail" ColumnName="PossessionTimeImagePathThumbnail" />
+                <ScalarProperty Name="ReturnTimeImagePath" ColumnName="ReturnTimeImagePath" />
+                <ScalarProperty Name="ReturnTimeImagePathThumbnail" ColumnName="ReturnTimeImagePathThumbnail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PossessionsIssues">
-            <EntityTypeMapping TypeName="VPSModel.PossessionsIssues">
+            <EntityTypeMapping TypeName="VPS.Models.PossessionsIssues">
               <MappingFragment StoreEntitySet="PossessionsIssues">
-                <ScalarProperty Name="ImagePathThumbnail" ColumnName="ImagePathThumbnail" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="IsReturnTimeIssue" ColumnName="IsReturnTimeIssue" />
-                <ScalarProperty Name="IsPossessionTimeIssue" ColumnName="IsPossessionTimeIssue" />
-                <ScalarProperty Name="IssueDetails" ColumnName="IssueDetails" />
-                <ScalarProperty Name="PossessionID" ColumnName="PossessionID" />
                 <ScalarProperty Name="PossessionIssueID" ColumnName="PossessionIssueID" />
+                <ScalarProperty Name="PossessionID" ColumnName="PossessionID" />
+                <ScalarProperty Name="IssueDetails" ColumnName="IssueDetails" />
+                <ScalarProperty Name="IsPossessionTimeIssue" ColumnName="IsPossessionTimeIssue" />
+                <ScalarProperty Name="IsReturnTimeIssue" ColumnName="IsReturnTimeIssue" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ImagePathThumbnail" ColumnName="ImagePathThumbnail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="VPSModel.Users">
+            <EntityTypeMapping TypeName="VPS.Models.Users">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vehicles">
-            <EntityTypeMapping TypeName="VPSModel.Vehicles">
+            <EntityTypeMapping TypeName="VPS.Models.Vehicles">
               <MappingFragment StoreEntitySet="Vehicles">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Details" ColumnName="Details" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="FootMatts" ColumnName="FootMatts" />
-                <ScalarProperty Name="ETagHolder" ColumnName="ETagHolder" />
-                <ScalarProperty Name="TransmissionServiceDueKM" ColumnName="TransmissionServiceDueKM" />
-                <ScalarProperty Name="EngineServiceDueKM" ColumnName="EngineServiceDueKM" />
-                <ScalarProperty Name="LastODOMeterReading" ColumnName="LastODOMeterReading" />
-                <ScalarProperty Name="FirstODOMeterReading" ColumnName="FirstODOMeterReading" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Make" ColumnName="Make" />
-                <ScalarProperty Name="RegistrationExpiryDate" ColumnName="RegistrationExpiryDate" />
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="RegistrationExpiryDate" ColumnName="RegistrationExpiryDate" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="FirstODOMeterReading" ColumnName="FirstODOMeterReading" />
+                <ScalarProperty Name="LastODOMeterReading" ColumnName="LastODOMeterReading" />
+                <ScalarProperty Name="EngineServiceDueKM" ColumnName="EngineServiceDueKM" />
+                <ScalarProperty Name="TransmissionServiceDueKM" ColumnName="TransmissionServiceDueKM" />
+                <ScalarProperty Name="ETagHolder" ColumnName="ETagHolder" />
+                <ScalarProperty Name="FootMatts" ColumnName="FootMatts" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VehiclesImages">
-            <EntityTypeMapping TypeName="VPSModel.VehiclesImages">
+            <EntityTypeMapping TypeName="VPS.Models.VehiclesImages">
               <MappingFragment StoreEntitySet="VehiclesImages">
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
                 <ScalarProperty Name="VehicleImageID" ColumnName="VehicleImageID" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VehiclesIssues">
-            <EntityTypeMapping TypeName="VPSModel.VehiclesIssues">
+            <EntityTypeMapping TypeName="VPS.Models.VehiclesIssues">
               <MappingFragment StoreEntitySet="VehiclesIssues">
-                <ScalarProperty Name="IssueFixeDate" ColumnName="IssueFixeDate" />
-                <ScalarProperty Name="IsIssueFixed" ColumnName="IsIssueFixed" />
-                <ScalarProperty Name="IssueReportDate" ColumnName="IssueReportDate" />
-                <ScalarProperty Name="ImageThumbnailPath" ColumnName="ImageThumbnailPath" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="IssueDetails" ColumnName="IssueDetails" />
-                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
                 <ScalarProperty Name="VehicleIssueID" ColumnName="VehicleIssueID" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="IssueDetails" ColumnName="IssueDetails" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ImageThumbnailPath" ColumnName="ImageThumbnailPath" />
+                <ScalarProperty Name="IssueReportDate" ColumnName="IssueReportDate" />
+                <ScalarProperty Name="IsIssueFixed" ColumnName="IsIssueFixed" />
+                <ScalarProperty Name="IssueFixeDate" ColumnName="IssueFixeDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="V_AvailableVehicles">
-            <EntityTypeMapping TypeName="VPSModel.V_AvailableVehicles">
+            <EntityTypeMapping TypeName="VPS.Models.V_AvailableVehicles">
               <MappingFragment StoreEntitySet="V_AvailableVehicles">
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Make" ColumnName="Make" />
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="V_CurrentPossessions">
-            <EntityTypeMapping TypeName="VPSModel.V_CurrentPossessions">
+            <EntityTypeMapping TypeName="VPS.Models.V_CurrentPossessions">
               <MappingFragment StoreEntitySet="V_CurrentPossessions">
-                <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-                <ScalarProperty Name="VehicleDetails" ColumnName="VehicleDetails" />
-                <ScalarProperty Name="DriverDateOfBirth" ColumnName="DriverDateOfBirth" />
-                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
-                <ScalarProperty Name="Rego" ColumnName="Rego" />
-                <ScalarProperty Name="PossessionDateTime" ColumnName="PossessionDateTime" />
                 <ScalarProperty Name="PossessionID" ColumnName="PossessionID" />
+                <ScalarProperty Name="PossessionDateTime" ColumnName="PossessionDateTime" />
+                <ScalarProperty Name="Rego" ColumnName="Rego" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="DriverDateOfBirth" ColumnName="DriverDateOfBirth" />
+                <ScalarProperty Name="VehicleDetails" ColumnName="VehicleDetails" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="V_NoticedVehicles">
-            <EntityTypeMapping TypeName="VPSModel.V_NoticedVehicles">
+            <EntityTypeMapping TypeName="VPS.Models.V_NoticedVehicles">
               <MappingFragment StoreEntitySet="V_NoticedVehicles">
-                <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
-                <ScalarProperty Name="ReturnDateTime" ColumnName="ReturnDateTime" />
-                <ScalarProperty Name="NoticeRemarks" ColumnName="NoticeRemarks" />
-                <ScalarProperty Name="NoticeDate" ColumnName="NoticeDate" />
-                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
                 <ScalarProperty Name="PossessionID" ColumnName="PossessionID" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="NoticeDate" ColumnName="NoticeDate" />
+                <ScalarProperty Name="NoticeRemarks" ColumnName="NoticeRemarks" />
+                <ScalarProperty Name="ReturnDateTime" ColumnName="ReturnDateTime" />
+                <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -893,22 +908,22 @@ warning 6002: The table/view 'VPS20171123.dbo.V_NoticedVehicles' does not have a
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <edmx:Designer>
-    <edmx:Connection>
-      <edmx:DesignerInfoPropertySet>
-        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
-      </edmx:DesignerInfoPropertySet>
-    </edmx:Connection>
-    <edmx:Options>
-      <edmx:DesignerInfoPropertySet>
-        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <edmx:DesignerProperty Name="EnablePluralization" Value="false" />
-        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <edmx:DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="None" />
-      </edmx:DesignerInfoPropertySet>
-    </edmx:Options>
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <edmx:Diagrams />
-  </edmx:Designer>
+    <Diagrams></Diagrams>
+  </Designer>
 </edmx:Edmx>

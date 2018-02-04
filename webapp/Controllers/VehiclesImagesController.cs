@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VPS.Models;
@@ -16,20 +17,20 @@ namespace VPS.Controllers
         private VPSEntities db = new VPSEntities();
 
         // GET: /VehiclesImages/
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var vehiclesimages = db.VehiclesImages.Include(v => v.Vehicles);
-            return View(vehiclesimages.ToList());
+            return View(await vehiclesimages.ToListAsync());
         }
 
         // GET: /VehiclesImages/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VehiclesImages vehiclesimages = db.VehiclesImages.Find(id);
+            VehiclesImages vehiclesimages = await db.VehiclesImages.FindAsync(id);
             if (vehiclesimages == null)
             {
                 return HttpNotFound();
@@ -66,7 +67,7 @@ namespace VPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection form, HttpPostedFileBase file)
+        public async Task<ActionResult> Create(FormCollection form, HttpPostedFileBase file)
         {
             VehiclesImages dbVehicleImage = new VehiclesImages();
 
@@ -83,20 +84,20 @@ namespace VPS.Controllers
                 }
 
                 db.VehiclesImages.Add(dbVehicleImage);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
 
             return RedirectToAction("Index", new { id = dbVehicleImage.VehicleID });
         }
 
         // GET: /VehiclesImages/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VehiclesImages vehiclesimages = db.VehiclesImages.Find(id);
+            VehiclesImages vehiclesimages = await db.VehiclesImages.FindAsync(id);
             if (vehiclesimages == null)
             {
                 return HttpNotFound();
@@ -107,9 +108,9 @@ namespace VPS.Controllers
         // POST: /VehiclesImages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            VehiclesImages vehiclesimages = db.VehiclesImages.Find(id);
+            VehiclesImages vehiclesimages = await db.VehiclesImages.FindAsync(id);
             db.VehiclesImages.Remove(vehiclesimages);
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -196,54 +196,13 @@
                         <div class="row">
                             <div class="col-md-5 col-sm-12 col-xs-12 ">
                                 <div class="description description-tabs">
-                                    <ul id="myTab2" class="nav nav-pills">
-                                        <li class="active"><a href="#pImages" data-toggle="tab" class="no-margin">Possession Images</a></li>
-                                        <li class=""><a href="#pIssues" data-toggle="tab">Possession Issues</a></li>
+                                    <ul id="myTab2" class="nav nav-pills">                                        
+                                        <li class="active"><a href="#pIssues" data-toggle="tab">Possession Issues</a></li>
+                                        <li class=""><a href="#pImages" data-toggle="tab" class="no-margin">Possession Images</a></li>
                                     </ul>
                                     <div id="myTabContent2" class="tab-content">
-                                        <div class="tab-pane fade active in" id="pImages">
-                                            <div class="product-image">
-                                                <div id="myCarousel-2" class="carousel slide">
-                                                    <ol class="carousel-indicators">
-                                                        @for (int i = 0; i < Model.PossessionsImages.Count; i++)
-                                                        {
-                                                            <li data-target="#myCarousel-2" data-slide-to=@i class=""></li>
-                                                        }
-                                                    </ol>
-                                                    <div class="carousel-inner">
-                                                        @if (@Model.PossessionsImages.Count > 0)
-                                                        {
-                                                            foreach (var item in Model.PossessionsImages)
-                                                            {
-                                                                if (Model.PossessionsImages.FirstOrDefault() == item)
-                                                                {
-                                                                    <div class="item active">
-                                                                        <img src=@item.PossessionTimeImagePath alt="">
-                                                                    </div>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <div class="item">
-                                                                        <img src=@item.PossessionTimeImagePath alt="">
-                                                                    </div>
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="item active">
-                                                                <img src="/Content/img/noImage.jpg" alt="">
-                                                            </div>
-                                                        }
-                                                        <span> </span>
-
-                                                    </div>
-                                                    <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-                                                    <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade in" id="pIssues">
+              
+                                        <div class="tab-pane fade active in" id="pIssues">
                                             <div class="product-image">
                                                 <div id="myCarousel-3" class="carousel slide">
                                                     <ol class="carousel-indicators">
@@ -282,6 +241,48 @@
                                                     </div>
                                                     <a class="left carousel-control" href="#myCarousel-3" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
                                                     <a class="right carousel-control" href="#myCarousel-3" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade  in" id="pImages">
+                                            <div class="product-image">
+                                                <div id="myCarousel-2" class="carousel slide">
+                                                    <ol class="carousel-indicators">
+                                                        @for (int i = 0; i < Model.PossessionsImages.Count; i++)
+                                                        {
+                                                            <li data-target="#myCarousel-2" data-slide-to=@i class=""></li>
+                                                        }
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        @if (@Model.PossessionsImages.Count > 0)
+                                                        {
+                                                            foreach (var item in Model.PossessionsImages)
+                                                            {
+                                                                if (Model.PossessionsImages.FirstOrDefault() == item)
+                                                                {
+                                                                    <div class="item active">
+                                                                        <img src=@item.PossessionTimeImagePath alt="">
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="item">
+                                                                        <img src=@item.PossessionTimeImagePath alt="">
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="item active">
+                                                                <img src="/Content/img/noImage.jpg" alt="">
+                                                            </div>
+                                                        }
+                                                        <span> </span>
+
+                                                    </div>
+                                                    <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+                                                    <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
                                                 </div>
                                             </div>
                                         </div>

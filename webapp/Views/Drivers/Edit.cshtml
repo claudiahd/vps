@@ -5,17 +5,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Edit Driver</h2>
 
-@using (Html.BeginForm())
-{
+@*@using (Html.BeginForm())
+    {*@
+
+<form action="@Url.Action("Edit", "Drivers")" method="POST" id="myForm" name="myForm" enctype="multipart/form-data">
+
     @Html.AntiForgeryToken()
-    
+
+    <div class="col-xs-12 text-left margin-left-5">
+        @Html.ActionLink(" Back to List", "Index", null, null, new { @class = "txt-color-white btn btn-danger btn-lg fa fa-backward" })
+    </div>
+
     <div class="form-horizontal">
-        <h4>Drivers</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.DriverID)
+
+
+        <div class="form-group">
+            <span class="control-label col-md-2"></span>
+            <div class="col-md-10">
+                @if (@Model.AvatarPath != null)
+                {
+                    <div>
+                        <img id="profileImage" name="profileImage" src=@Model.AvatarPath class="img-thumbnail" alt=@Model.SurName width="15%" height="15%" />
+                        <input id="imageUpload" title="Upload a issue image" type="file" name="file" />
+                    </div>
+                }
+                else
+                {
+                    <img src="/Images/Drivers/noImage.JPG" alt="" id="profileImage" name="profileImage" class="img-thumbnail" width="15%" height="15%">
+                    <input id="imageUpload" title="Upload a issue image" type="file" name="file" />
+                }
+            </div>
+        </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.GivenName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -48,7 +73,6 @@
                 @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
             </div>
         </div>
-        
         <div class="form-group">
             @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -151,7 +175,15 @@
                 @Html.EditorFor(model => model.UberIDPassword, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UberIDPassword, "", new { @class = "text-danger" })
             </div>
-        </div>       
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -159,8 +191,50 @@
             </div>
         </div>
     </div>
-}
+    @*}*@
+</form>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@section pagespecific{
+    <script type="text/javascript">
+        $("#profileImage").click(function (e) {
+            $("#imageUpload").click();
+        });
+
+        function fasterPreview(uploader) {
+            if (uploader.files && uploader.files[0]) {
+                $('#profileImage').attr('src',
+                   window.URL.createObjectURL(uploader.files[0]));
+            }
+        }
+
+        $("#imageUpload").change(function () {
+            fasterPreview(this);
+        });
+    </script>
+
+    <style>
+        #imageUpload {
+            display: none;
+        }
+
+        #profileImage {
+            cursor: pointer;
+        }
+
+        #profile-container {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+            #profile-container img {
+                width: 150px;
+                height: 150px;
+            }
+    </style>
+}

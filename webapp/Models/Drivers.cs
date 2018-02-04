@@ -39,7 +39,6 @@ namespace VPS.Models
         public string EmailAddress { get; set; }
         public string AvatarPath { get; set; }
         public Nullable<bool> IsActive { get; set; }
-    
         public virtual ICollection<Possessions> Possessions { get; set; }
     }
 }

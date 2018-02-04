@@ -23,5 +23,8 @@ namespace VPS.Models
         public string NoticeRemarks { get; set; }
         public Nullable<System.DateTime> ReturnDateTime { get; set; }
         public Nullable<bool> IsReturn { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public Nullable<int> Year { get; set; }
     }
 }

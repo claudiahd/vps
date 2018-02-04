@@ -551,6 +551,9 @@
     <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome4.2\FontAwesome.otf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\signature\journal.eot" />
+    <Content Include="Content\signature\journal.ttf" />
+    <Content Include="Content\signature\journal.woff" />
     <EntityDeploy Include="Models\VPSModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>VPSModel.Designer.cs</LastGenOutput>
@@ -558,9 +561,6 @@
     <Content Include="Models\VPSModel.edmx.diagram">
       <DependentUpon>VPSModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\signature\journal.eot" />
-    <Content Include="Content\signature\journal.ttf" />
-    <Content Include="Content\signature\journal.woff" />
     <None Include="Properties\PublishProfiles\mirvps.pubxml" />
     <None Include="Properties\PublishProfiles\SmartAdmin - Release.pubxml" />
     <None Include="Properties\PublishProfiles\SmartAdmin - Debug.pubxml" />
@@ -1118,11 +1118,11 @@
     <Compile Include="Models\Drivers.cs">
       <DependentUpon>VPSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DTOs\MyDriver.cs" />
-    <Compile Include="Models\DTOs\MyPossession.cs" />
-    <Compile Include="Models\DTOs\MyUser.cs" />
-    <Compile Include="Models\DTOs\MyVehicle.cs" />
-    <Compile Include="Models\DTOs\MyVehicleIssue.cs" />
+    <Compile Include="Models\DTOs\DriverDto.cs" />
+    <Compile Include="Models\DTOs\PossessionDto.cs" />
+    <Compile Include="Models\DTOs\UserDto.cs" />
+    <Compile Include="Models\DTOs\VehicleDto.cs" />
+    <Compile Include="Models\DTOs\VehicleIssueDto.cs" />
     <Compile Include="Models\HomeModels.cs" />
     <Compile Include="Models\Possessions.cs">
       <DependentUpon>VPSModel.tt</DependentUpon>

@@ -13,6 +13,7 @@ namespace VPS
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.LowercaseUrls = true;
+            routes.MapMvcAttributeRoutes();
             routes.MapRoute("Default", "{controller}/{action}/{id}", new
             {
                 controller = "Home",
