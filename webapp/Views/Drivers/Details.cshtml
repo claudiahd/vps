@@ -1,155 +1,199 @@
-﻿@model VPS.Models.DTOs.MyDriver
+﻿@model VPS.Models.DTOs.DriverDto
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Drivers Details</h2>
 
-<div>
-    <h4>Drivers</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.GivenName)
-        </dt>
+<div id="content">
+    <div class="row">
+        <div class="col-xs-12 text-left margin-left-12 margin-bottom-5">
+            @Html.ActionLink(" Edit", "Edit", new { id = Model.DriverID }, new { @class = "txt-color-white btn btn-primary btn-lg fa fa-edit" })
+            @Html.ActionLink(" Back to List", "Index", null, new { @class = "txt-color-white btn btn-danger btn-lg fa fa-backward" })
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.GivenName)
-        </dd>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="margin-bottom-5">
+                    @if (@Model.AvatarPath != null)
+                    {
+                    <img src=@Model.AvatarPath class="img-thumbnail" alt="@Model.SurName" width="15%" height="15%">
+                    }
+                    else
+                    {
+                    <img src="/Images/Drivers/noImage.JPG" alt="" width="15%" height="15%">
+                    }
+                </div>
+                <table class="table table-striped" style="width:100%;">
+                    <tbody>
+                        <tr>
+                            <td class="txt-color-blue col-md-3">
+                                @Html.DisplayNameFor(model => model.GivenName)
+                            </td>
+                            <td class="col-md-9">
+                                @Html.DisplayFor(model => model.GivenName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.MiddleName)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MiddleName)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.MiddleName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.SurName)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.MiddleName)
-        </dd>
+                            <td>
+                                @Html.DisplayFor(model => model.SurName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SurName)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.DOB)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.LicenceNo)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.SurName)
-        </dd>
+                            <td>
+                                @Html.DisplayFor(model => model.LicenceNo)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.Address)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.Address)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.Suburb)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
+                            <td>
+                                @Html.DisplayFor(model => model.Suburb)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.State)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.State)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.Postcode)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+                            <td>
+                                @Html.DisplayFor(model => model.Postcode)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.EmailAddress)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Suburb)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.EmailAddress)
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.MobileNo)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.Suburb)
-        </dd>
+                            <td>
+                                @Html.DisplayFor(model => model.MobileNo)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.EmergencyContactName)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.EmergencyContactName)
+                            </td>
+                        </tr>
+                        @*<tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.EmergencyContactRelation)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.State)
-        </dd>
+                            <td>
+                                @Html.DisplayFor(model => model.EmergencyContactRelation)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.EmergencyContactMobileNo)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Postcode)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.EmergencyContactMobileNo)
+                            </td>
+                        </tr>*@
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.UberID)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.Postcode)
-        </dd>
+                            <td>
+                                @Html.DisplayFor(model => model.UberID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.UberIDPassword)
+                            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LicenceNo)
-        </dt>
+                            <td>
+                                @Html.DisplayFor(model => model.UberIDPassword)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txt-color-blue">
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.LicenceNo)
-        </dd>
+                            <td>
+                                @if (Model.IsActive)
+                                {
+                                <span>Yes - Active Driver</span>
+                                }
+                                else
+                                {
+                                <span>No - Inactive Driver</span>
+                                }
+                            </td>
+                        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MobileNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MobileNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmergencyContactName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmergencyContactName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmergencyContactRelation)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmergencyContactRelation)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmergencyContactMobileNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmergencyContactMobileNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmergencyContactAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmergencyContactAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UberID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UberID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UberIDPassword)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UberIDPassword)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailAddress)
-        </dd>
-
-    </dl>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 </div>
-<p>
-    @Html.ActionLink(" Edit", "Edit", new { id = Model.DriverID },  new { @class = "btn btn-primary fa fa-edit" }) |
-    @Html.ActionLink(" Back to List", "Index", null, new { @class = "btn btn-primary fa fa-backward" })
-</p>

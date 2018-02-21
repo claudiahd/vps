@@ -1,0 +1,85 @@
+﻿@model IEnumerable<VPS.Models.Possessions>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Possession Details</h2>
+
+<p>
+    @Html.ActionLink("Add New Possession", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PossessionID)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.RegistrationNo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.PossessionDateTime)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.IsReturn)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnDateTime)
+        </th>
+
+        <th>
+            @*@Html.DisplayNameFor(model => model.DriversName)*@
+            Driver Name
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.PossessionByName)*@
+            Possession By
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PossessionID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PossessionDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsReturn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Drivers.GivenName) @Html.DisplayFor(modelItem => item.Drivers.MiddleName) @Html.DisplayFor(modelItem => item.Drivers.SurName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Users.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.PossessionID })
+
+                @if (item.IsReturn == false || item.IsReturn == null)
+                {
+                    <span>|</span>
+                    @Html.ActionLink("Add Return", "ReturnPossession", new { id = item.PossessionID })
+
+                    <span>|</span>
+                    @Html.ActionLink("Add Notice", "AddNotice", new { id = item.PossessionID })
+                }
+            </td>
+        </tr>
+    }
+
+</table>
