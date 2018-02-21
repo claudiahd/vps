@@ -20,7 +20,7 @@ namespace VPS.Models.DTOs
                 this.DriverID = driver.DriverID;
 
                 this.Name = driver.GivenName + " " + driver.MiddleName + " " + driver.SurName;
-                this.DateOfBirth = driver.DateOfBirth;
+                this.DOB = this.DateOfBirth = driver.DateOfBirth;
                 this.Address = driver.Address;
                 this.Suburb = driver.Suburb;
                 this.State = driver.State;
@@ -58,9 +58,14 @@ namespace VPS.Models.DTOs
         public int DriverID { get; set; }
 
         [Display(Name = "Date of Birth")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date)]
         public System.DateTime DateOfBirth { get; set; }
+
+        [Display(Name = "DOB")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DataType(DataType.Date)]
+        public System.DateTime DOB { get; set; }
 
         [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
@@ -86,7 +91,7 @@ namespace VPS.Models.DTOs
         [DataType(DataType.PhoneNumber)]
         public string MobileNo { get; set; }
 
-        [Display(Name = "Emergency Contact Name")]
+        [Display(Name = "Refferal Name")]
         public string EmergencyContactName { get; set; }
 
         [Display(Name = "Emergency Contact Relation")]

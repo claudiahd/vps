@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VPS.Models.DTOs.MyVehicle>
+﻿@model IEnumerable<VPS.Models.DTOs.VehicleDto>
 
     @{
         ViewBag.Title = "Index";
@@ -56,7 +56,7 @@
 
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.RegistrationExpiryDate)
+                                                    @Html.DisplayFor(modelItem => item.RegoExpiryDate)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Make)

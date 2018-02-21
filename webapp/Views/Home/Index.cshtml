@@ -16,163 +16,192 @@
             <!-- NEW WIDGET START -->
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                <!-- Table Start-->
-                <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
-                    <header>
-                        <h2>Active Possessions (@Model.CurrentPossessions.Count)</h2>
-                    </header>
-                    <!-- widget div-->
-                    <div>
-                        <!-- widget edit box -->
-                        <div class="jarviswidget-editbox">
-                            <!-- This area used as dropdown edit box -->
-                        </div>
-                        <!-- end widget edit box -->
-                        <!-- widget content -->
-                        <div class="widget-body no-padding">
-                            <table id="dt_activePossessions" class="table table-striped table-bordered table-hover" style="width:100%;">
-                                <thead>
-                                    <tr>
-                                        @*<th data-class="expand">ID</th>*@
-                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Rego</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Vehicle Details</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Driver</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Driver DOB</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> Mobile</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.CurrentPossessions)
-                                    {
-                                        <tr>
-                                            <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.Rego).ToString(), "Details", "Possessions", new { id = item.PossessionID }, new { @class = "" })</td>
-                                            <td>@Html.DisplayFor(modelItem => item.VehicleDetails)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.DriverName)</td>                                            
-                                            <td>
-                                                @if (item.DriverDateOfBirth != null)
+                <div class="description description-pills">
+                    <ul id="myTab2" class="nav nav-tabs">
+                        <li class="active"><a href="#aPossessions" data-toggle="tab" class="no-margin Bold">BUSY VEHICLES <sup>(@Model.CurrentPossessions.Count)</sup></a></li>
+                        <li class=""><a href="#aVehicles" data-toggle="tab" class="Bold">AVAILABLE VEHICLES <sup>(@Model.AvailableVehicles.Count)</sup></a></li>
+                        <li class=""><a href="#rVehicles" data-toggle="tab" class="Bold">RETURNING VEHICLES <sup>(@Model.NoticedVehicles.Count)</sup></a></li>
+                    </ul>
+                    <div id="myTabContent2" class="tab-content">
+                        <div class="tab-pane fade active in" id="aPossessions">
+                            <!-- Table Start-->
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+                                <header></header>
+                                <!-- widget div-->
+                                <div>
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                                    </div>
+                                    <!-- end widget edit box -->
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding">
+                                        <table id="dt_activePossessions" class="table table-striped table-bordered table-hover" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    @*<th data-class="expand">ID</th>*@
+                                                    <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> REGO</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> VEHICLE DETAIL</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> DRIVER</th>
+                                                    @*<th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Driver DOB</th>*@
+                                                    <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> POSSESSION DATE</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>  TIME</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> MOBILE</th>
+                                                    <th data-class="expand"><i class="fa fa-fw text-muted hidden-md hidden-sm hidden-xs"></i>ADD RETURN/NOTICE</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.CurrentPossessions)
                                                 {
-                                                    @item.DriverDateOfBirth.Date.ToShortDateString()
+                                                    <tr>
+                                                        <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.Rego).ToString(), "Details", "Possessions", new { id = item.PossessionID }, new { @class = "" })</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.VehicleDetails)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.DriverName)</td>
+                                                        @*<td>
+                                                                @if (item.DriverDateOfBirth != null)
+                                                                    {
+                                                                @item.DriverDateOfBirth.Date.ToShortDateString()
+                                                                    }
+                                                            </td>*@
+                                                        <td>
+                                                            @if (item.Date != null)
+                                                            {
+                                                                @item.Date.GetValueOrDefault().ToShortDateString()
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @item.PossessionDateTime.ToString("HH:mm tt")
+                                                        </td>
+                                                        <td>@Html.DisplayFor(modelItem => item.MobileNo)</td>
+                                                        <td>
+                                                            @Html.ActionLink("RETURN", "ReturnPossession", "Possessions", new { id = item.PossessionID }, null)
+                                                            <span>|</span>
+                                                            @Html.ActionLink("NOTICE", "AddNotice", "Possessions", new { id = item.PossessionID }, null)
+
+                                                        </td>
+
+                                                    </tr>
                                                 }
-                                            </td>
-                                            
-                                            <td>@Html.DisplayFor(modelItem => item.MobileNo)</td>
-                                            <td>
-                                                @if (item.Date != null)
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end widget content -->
+                                </div>
+                                <!-- end widget div -->
+                            </div>
+                            <!-- end widget -->
+                            <!-- Table END-->
+
+                        </div>
+
+                        <div class="tab-pane fade in" id="aVehicles">
+                            <!-- Table Start-->
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                                <header></header>
+
+                                <!-- widget div-->
+                                <div>
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                                    </div>
+                                    <!-- end widget edit box -->
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding">
+                                        <table id="dt_availableVehicles" class="table table-striped table-bordered" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    @*<th data-class="expand">ID</th>*@
+                                                    <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> REGO</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> VEHICLE DETAIL</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.AvailableVehicles)
                                                 {
-                                                    @item.Date.GetValueOrDefault().ToShortDateString()
+                                                    <tr>
+                                                        @*<td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.VehicleID).ToString(), "Details", "Vehicles", new { id = item.VehicleID }, new { @class = "" })</td>*@
+                                                        <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.RegistrationNo).ToString(), "Details", "Vehicles", new { id = item.VehicleID }, new { @class = "" })</td>
+                                                        <td>@Html.DisplayFor(model => item.Make) @Html.DisplayFor(model => item.Model) @Html.DisplayFor(model => item.Year)</td>
+                                                        @*<td>@Html.DisplayFor(model => item.Model)</td>
+                                                            <td>@Html.DisplayFor(model => item.Year)</td>*@
+                                                    </tr>
                                                 }
-                                            </td>
-                                            <td>@Html.DisplayFor(modelItem => item.Time)</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- end widget content -->
-                    </div>
-                    <!-- end widget div -->
-                </div>
-                <!-- end widget -->
-                <!-- Table END-->
-                <!-- Table Start-->
-                <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
-                    <header>
-                        <h2>Available Vehicles (@Model.AvailableVehicles.Count)</h2>
-                    </header>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end widget content -->
+                                </div>
+                                <!-- end widget div -->
 
-                    <!-- widget div-->
-                    <div>
-                        <!-- widget edit box -->
-                        <div class="jarviswidget-editbox">
-                            <!-- This area used as dropdown edit box -->
-                        </div>
-                        <!-- end widget edit box -->
-                        <!-- widget content -->
-                        <div class="widget-body no-padding">
-                            <table id="dt_availableVehicles" class="table table-striped table-bordered" style="width:100%;">
-                                <thead>
-                                    <tr>
-                                        @*<th data-class="expand">ID</th>*@
-                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Rego</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i>  Make</th>
-                                        <th data-class="expand">Model</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Year</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.AvailableVehicles)
-                                    {
-                                        <tr>
-                                            @*<td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.VehicleID).ToString(), "Details", "Vehicles", new { id = item.VehicleID }, new { @class = "" })</td>*@
-                                            <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.RegistrationNo).ToString(), "Details", "Vehicles", new { id = item.VehicleID }, new { @class = "" })</td>
-                                            @*<td>@Html.DisplayFor(model => item.RegistrationNo)</td>*@
-                                            <td>@Html.DisplayFor(model => item.Make)</td>
-                                            <td>@Html.DisplayFor(model => item.Model)</td>
-                                            <td>@Html.DisplayFor(model => item.Year)</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- end widget content -->
-                    </div>
-                    <!-- end widget div -->
+                            </div>
+                            <!-- end widget -->
+                            <!-- Table END-->
 
-                </div>
-                <!-- end widget -->
-                <!-- Table END-->
-                <!-- Table Start-->
-                <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-editbutton="false">
-                    <header>
-                        <h2>Returning Vehicles (@Model.NoticedVehicles.Count)</h2>
-                    </header>
+                        </div>
 
-                    <!-- widget div-->
-                    <div>
-                        <!-- widget edit box -->
-                        <div class="jarviswidget-editbox">
-                            <!-- This area used as dropdown edit box -->
+                        <div class="tab-pane fade in" id="rVehicles">
+                            <!-- Table Start-->
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-editbutton="false">
+                                <header></header>
+
+                                <!-- widget div-->
+                                <div>
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                                    </div>
+                                    <!-- end widget edit box -->
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding">
+                                        <table id="dt_returningVehicles" class="table table-striped table-bordered" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    @*<th data-class="expand">Possession Id</th>*@
+                                                    <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> REGO</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> VEHICLE DETAIL</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> DRIVER</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> MOBILE</th>
+                                                    <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> RETURNING DATE</th>
+                                                    <th data-class="expand">REMARKS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.NoticedVehicles)
+                                                {
+                                                    <tr>
+                                                        @*<td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.PossessionID).ToString(), "Details", "Possessions", new { id = item.PossessionID }, new { @class = "" })</td>*@
+                                                        <td>@Html.DisplayFor(model => item.RegistrationNo)</td>
+
+                                                        <td>@Html.DisplayFor(model => item.Make) @Html.DisplayFor(model => item.Model) @Html.DisplayFor(model => item.Year)</td>
+                                                        <td>@Html.DisplayFor(model => item.DriverName)</td>
+                                                        <td>@Html.DisplayFor(model => item.MobileNo)</td>
+                                                        <td>
+                                                            @if (item.NoticeDate != null)
+                                                            {
+                                                                @item.NoticeDate.GetValueOrDefault().ToShortDateString()
+                                                            }
+                                                        </td>
+                                                        <td>@Html.DisplayFor(model => item.NoticeRemarks)</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end widget content -->
+                                </div>
+                                <!-- end widget div -->
+                            </div>
+                            <!-- end widget -->
+                            <!-- Table END-->
+
                         </div>
-                        <!-- end widget edit box -->
-                        <!-- widget content -->
-                        <div class="widget-body no-padding">
-                            <table id="dt_returningVehicles" class="table table-striped table-bordered" style="width:100%;">
-                                <thead>
-                                    <tr>
-                                        <th data-class="expand">Possession Id</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> Rego</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Driver</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> Mobile</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Notice Date</th>
-                                        <th data-class="expand">Notice Remarks</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.NoticedVehicles)
-                                    {
-                                        <tr>
-                                            <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.PossessionID).ToString(), "Details", "Possessions", new { id = item.PossessionID }, new { @class = "" })</td>
-                                            <td>@Html.DisplayFor(model => item.RegistrationNo)</td>
-                                            <td>@Html.DisplayFor(model => item.DriverName)</td>
-                                            <td>@Html.DisplayFor(model => item.MobileNo)</td>
-                                            <td>@Html.DisplayFor(model => item.NoticeDate)</td>
-                                            <td>@Html.DisplayFor(model => item.NoticeRemarks)</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- end widget content -->
                     </div>
-                    <!-- end widget div -->
                 </div>
-                <!-- end widget -->
-                <!-- Table END-->
             </article>
         </div>
     </section>
@@ -230,7 +259,8 @@
                 },
                 "drawCallback": function (oSettings) {
                     responsiveHelper_dt_activePossessions.respond();
-                }
+                },
+                "lengthMenu": [[25, 50, -1], [25, 50, "All"]]
             });
 
             /* END Available Vehicles */
@@ -253,7 +283,8 @@
                 },
                 "drawCallback": function (oSettings) {
                     responsiveHelper_dt_availableVehicles.respond();
-                }
+                },
+                "lengthMenu": [[25, 50, -1], [25, 50, "All"]]
             });
 
             /* END Available Vehicles */
@@ -277,7 +308,8 @@
                 },
                 "drawCallback": function (oSettings) {
                     responsiveHelper_dt_returningVehicles.respond();
-                }
+                },
+                "lengthMenu": [[25, 50, -1], [25, 50, "All"]]
             });
 
             /* END Return Vehicles */

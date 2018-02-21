@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VPS.Models.DTOs.MyDriver>
+﻿@model IEnumerable<VPS.Models.DTOs.DriverDto>
 
     @{
         ViewBag.Title = "Index";
@@ -39,9 +39,11 @@
                                         <tr>
                                             @*<th data-class="expand">ID</th>*@
                                             <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Address</th>
                                             <th data-class="expand"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i> Date of Birth</th>
                                             <th data-class="expand"><i class="fa fa-fw fa-taxi text-muted hidden-md hidden-sm hidden-xs"></i> LicenceNo</th>
                                             <th data-class="expand"><i class="fa fa-fw fa-phone txt-color-blue hidden-md hidden-sm hidden-xs"></i>MobileNo</th>
+                                            <th data-class="expand"><i class="fa fa-fw fa-crosshairs txt-color-blue hidden-md hidden-sm hidden-xs"></i> </th>
                                             <th data-class="expand"><i class="fa fa-fw fa-crosshairs txt-color-blue hidden-md hidden-sm hidden-xs"></i> </th>
                                         </tr>
                                     </thead>
@@ -50,9 +52,11 @@
                                         {
                                             <tr>                                                                                                
                                                 <td>@Html.ActionLink(@Html.DisplayFor(modelItem => item.Name).ToString(), "Details", "Drivers", new { id = item.DriverID }, new { @class = "" })</td>
-                                                
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                                    @Html.DisplayFor(modelItem => item.Address) @Html.DisplayFor(modelItem => item.Suburb) @Html.DisplayFor(modelItem => item.State) @Html.DisplayFor(modelItem => item.Postcode)   
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DOB)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.LicenceNo)
@@ -62,8 +66,12 @@
                                                 </td>
 
                                                 <td>
-                                                    @Html.ActionLink(" Delete", "Delete", new { id = item.DriverID }, new { @class = "btn btn-primary btn-xs fa fa-times" })
+                                                    @Html.ActionLink(" Edit", "Edit", new { id = item.DriverID }, new { @class = "btn btn-primary btn-xs fa fa-edit" })
                                                 </td>
+
+                                                <td>
+                                                    @Html.ActionLink(" Delete", "Delete", new { id = item.DriverID }, new { @class = "btn btn-primary btn-xs fa fa-times" })
+                                                </td>                                                
                                             </tr>
                                         }
 
@@ -168,7 +176,7 @@
                     },
                     "ordering": false,
                     "autoWidth": true,
-                    "lengthMenu": [[20, 40, 60, -1], [20, 40, 60, "All"]],
+                    "lengthMenu": [[40, 60, 80, -1], [40, 60, 80, "All"]],
                     "preDrawCallback": function () {
                         // Initialize the responsive datatables helper once.
                         if (!responsiveHelper_dt_allPossessions) {

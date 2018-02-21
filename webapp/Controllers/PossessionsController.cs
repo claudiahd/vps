@@ -281,7 +281,7 @@ namespace VPS.Controllers
                 date = date.AddMinutes(time.Minute);
                 dbPossesions.PossessionDateTime = date;
 
-                dbPossesions.ODOMeterPossissionTime = (form["LastODOMeterReading"] != "") ? (float)Convert.ToDecimal(form["LastODOMeterReading"]) : 00;
+                dbPossesions.ODOMeterPossissionTime = (form["vehicleLastODOMeterReading"] != "") ? (float)Convert.ToDecimal(form["vehicleLastODOMeterReading"]) : 00;
                 dbPossesions.ETagHolderPossissionTime = form["ETagHolder"] == "false" ? false : true;
                 dbPossesions.FootMattsPossissionTime = form["FootMatts"] == "false" ? false : true;
                 dbPossesions.CleanlinessPossissionTime = form["clean"] == "false" ? false : true;

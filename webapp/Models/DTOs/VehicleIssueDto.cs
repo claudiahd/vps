@@ -40,7 +40,7 @@ namespace VPS.Models.DTOs
         public string ImageThumbnailPath { get; set; }
 
         [Display(Name = "Issue Reported On")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> IssueReportDate { get; set; }
 
@@ -48,7 +48,7 @@ namespace VPS.Models.DTOs
         public bool IsIssueFixed { get; set; }
 
         [Display(Name = "Issue Fixed On")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> IssueFixeDate { get; set; }
 

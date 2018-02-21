@@ -1,4 +1,4 @@
-﻿@model VPS.Models.DTOs.MyPossession
+﻿@model VPS.Models.DTOs.PossessionDto
 
 @{
     ViewBag.Title = "Details";
@@ -180,6 +180,13 @@
                                                 }
                                             </td>
                                         </tr>
+
+
+                                        <tr>
+                                            <td class="txt-color-blue">ODOMeter Driven: </td>
+                                            <td>@(@Model.ODOMeterReturn - Model.ODOMeterPossissionTime) (KM)</td>
+                                        </tr>
+
                                         <tr>
                                             <td class="txt-color-blue">Possession Return Through: </td>
                                             <td>@Model.ReturnByName</td>

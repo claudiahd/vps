@@ -1,4 +1,4 @@
-﻿@model VPS.Models.DTOs.MyDriver
+﻿@model VPS.Models.DTOs.DriverDto
 
 @{
     ViewBag.Title = "Create";
@@ -13,7 +13,7 @@
         </header>
         <div class="well no-padding">
             @*@using (Ajax.BeginForm("Create", "Drivers", new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }, new { id="myForm", name="myForm", enctype = "multipart/form-data", @class ="smart-form client-form"}))
-            {*@
+                {*@
             <form action="@Url.Action("Create", "Drivers")" method="POST" id="myForm" name="myForm" class="smart-form client-form" enctype="multipart/form-data">
 
                 <fieldset>
@@ -55,24 +55,10 @@
                             </label>
                         </section>
                         <section>
-                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "label" })
-                            <label class="input">
-                                <i class="icon-append fa fa-envelope"></i>
-                                <input type="text" name="EmailAddress">
-                            </label>
-                        </section>
-                        <section>
                             @Html.LabelFor(model => model.LicenceNo, htmlAttributes: new { @class = "label" })
                             <label class="input">
                                 <input type="text" name="LicenceNo" value="">
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-id-card-o txt-color-teal"></i> Please enter Licence No</b>
-                            </label>
-                        </section>
-                        <section>
-                            @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "label" })
-                            <label class="input">
-                                <input type="text" name="MobileNo" value="" required="">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Contact Number</b>
                             </label>
                         </section>
                         <section>
@@ -104,6 +90,20 @@
                             </label>
                         </section>
                         <section>
+                            @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <input type="text" name="MobileNo" value="" required="">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Contact Number</b>
+                            </label>
+                        </section>
+                        <section>
+                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "label" })
+                            <label class="input">
+                                <i class="icon-append fa fa-envelope"></i>
+                                <input type="text" name="EmailAddress">
+                            </label>
+                        </section>
+                        <section>
                             @Html.LabelFor(model => model.UberID, htmlAttributes: new { @class = "label" })
                             <label class="input">
                                 <input type="text" name="UberID" value="">
@@ -124,27 +124,27 @@
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Name</b>
                             </label>
                         </section>
-                        <section>
-                            @Html.LabelFor(model => model.EmergencyContactRelation, htmlAttributes: new { @class = "label" })
-                            <label class="input">
-                                <input type="text" name="EmergencyContactRelation" value="">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Relation</b>
-                            </label>
-                        </section>
-                        <section>
-                            @Html.LabelFor(model => model.EmergencyContactMobileNo, htmlAttributes: new { @class = "label" })
-                            <label class="input">
-                                <input type="text" name="EmergencyContactMobileNo" value="">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Number</b>
-                            </label>
-                        </section>
-                        <section>
-                            @Html.LabelFor(model => model.EmergencyContactAddress, htmlAttributes: new { @class = "label" })
-                            <label class="input">
-                                <input type="text" name="EmergencyContactAddress" value="">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Address</b>
-                            </label>
-                        </section>
+                        @*<section>
+                                @Html.LabelFor(model => model.EmergencyContactRelation, htmlAttributes: new { @class = "label" })
+                                <label class="input">
+                                    <input type="text" name="EmergencyContactRelation" value="">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Relation</b>
+                                </label>
+                            </section>
+                            <section>
+                                @Html.LabelFor(model => model.EmergencyContactMobileNo, htmlAttributes: new { @class = "label" })
+                                <label class="input">
+                                    <input type="text" name="EmergencyContactMobileNo" value="">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Number</b>
+                                </label>
+                            </section>
+                            <section>
+                                @Html.LabelFor(model => model.EmergencyContactAddress, htmlAttributes: new { @class = "label" })
+                                <label class="input">
+                                    <input type="text" name="EmergencyContactAddress" value="">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter Emergency Contact Address</b>
+                                </label>
+                            </section>*@
 
                         <footer>
                             <button type="submit" class="btn btn-primary">
@@ -168,7 +168,7 @@
 
 @section pagespecific{
     <script type="text/javascript">
-        $("#profileImage").click(function (e) {            
+        $("#profileImage").click(function (e) {
             $("#imageUpload").click();
         });
 

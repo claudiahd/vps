@@ -72,7 +72,7 @@ namespace VPS.Models.DTOs
 
         [Display(Name = "Possess Date")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public System.DateTime PossessionDate { get; set; }
 
         [Display(Name = "Possess Time")]
@@ -99,7 +99,7 @@ namespace VPS.Models.DTOs
         public float TransmissionServiceDuePossissionTime { get; set; }
 
         [Display(Name = "Notice Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public Nullable<System.DateTime> NoticeDateReturn { get; set; }
 
         [Display(Name = "Notice Remarks")]
@@ -107,7 +107,7 @@ namespace VPS.Models.DTOs
 
         [Display(Name = "Return Date")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public Nullable<System.DateTime> ReturnDate { get; set; }
 
         [Display(Name = "Return Time")]

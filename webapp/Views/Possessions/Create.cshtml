@@ -1,4 +1,4 @@
-﻿@model VPS.Models.DTOs.MyPossession
+﻿@model VPS.Models.DTOs.PossessionDto
 
 
 @{
@@ -14,7 +14,7 @@
 
                 <div class="form-horizontal client-form smart-form">
                     <header>
-                        This rental agreement forms Terms and conditions of the Rental between Mir Fleet and the RENTER named on this agreement.
+                        This rental agreement forms Terms and conditions of the Rental between STALLION MOTORS and the RENTER named on this agreement.
                     </header>
 
                     <div style="padding: 25px 15px 5px; background: #fff; " class="row">
@@ -42,10 +42,10 @@
                                     </label>
                                 </section>
                                 <section class="clearfix">
-                                    <label class="label col-sm-12">Middle Name </label>
+                                    <label class="label col-sm-12">Sur Name </label>
                                     <label class="input col-sm-12">
                                         <i class="icon-append fa fa-user"></i>
-                                        <input type="text" name="dMiddleName" id="dMiddleName" value="">
+                                        <input type="text" name="dSurName" id="dSurName" value="">
                                     </label>
                                 </section>
                                 <section class="clearfix">
@@ -136,10 +136,10 @@
                                     </label>
                                 </section>
                                 <section class="clearfix">
-                                    <label class="label col-sm-12">First ODO Meter Reading </label>
+                                    <label class="label col-sm-12">Current ODOMeter</label>
                                     <label class="input col-sm-12">
                                         <i class="icon-append fa fa-tachometer"></i>
-                                        <input type="text" name="vehicleFirstODOMeterReading" id="vehicleFirstODOMeterReading" value="">
+                                        <input type="text" name="vehicleLastODOMeterReading" id="vehicleLastODOMeterReading" value="">
                                     </label>
                                 </section>
                                 <section class="clearfix">
@@ -191,36 +191,34 @@
                                 <table class="table" id="vehicleIssuesList"></table>
                             </section>
 
+                            <section class="clearfix">
+                                <label class="lable col-sm-12" for="Active">Vehicle Images</label>
+                                <table class="table" id="vehicleImagesList"></table>
+                            </section>
                         </div>
 
                         <!-- EXCESS DETAILS -->
                         <div class="row">
-                            <label class="lable col-sm-12" for="Active">Excess details</label>
+                            <label class="lable col-sm-12" for="Active">EXCESS DETAILS</label>
                             <table class="table fa-border">
                                 <thead>
                                     <tr>
                                         <th>
-                                            Standard excess
+                                            STANDARD EXCESS
                                         </th>
                                         <th>
-                                            Additional - age under 25 years
-                                        </th>
-                                        <th>
-                                            Additional - Australian license under 2 years
-                                        </th>
+                                            ADDITIONAL - AGE UNDER 25 YEARS OR AUSTRALIAN LICENSE UNDER 2 YEARS
+                                        </th>                                       
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <th scope="row">
-                                            $650
+                                            $1000
                                         </th>
                                         <th scope="row">
-                                            $400
-                                        </th>
-                                        <th scope="row">
-                                            $400
-                                        </th>
+                                            $500
+                                        </th>                                        
                                     </tr>
                                 </tbody>
                             </table>
@@ -230,8 +228,8 @@
                                 <div class=" col-xs-12">
                                     <section class="clearfix">
                                         <input type="checkbox" name="AgreeExcessDetails" value="false" required>
-                                        <i></i>I accept above all excess details
-                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please sagree with excess details</b>
+                                        <i></i>I ACCEPT ABOVE ALL EXCESS DETAILS
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please agree with excess details</b>
                                     </section>
                                 </div>
                             </div>
@@ -242,7 +240,7 @@
                         <div class="row">
                             <section class="clearfix">
                                 <input type="checkbox" name="termChk" id="termChk" value="false" required>
-                                <i></i>I am Agree with <a id="tc" class="btn" value="TermCondition" name="tc" data-toggle="modal" data-target="#myModal3" style="padding:2px"> Term and Conditions </a>
+                                <i></i>I AM AGREE WITH <a id="tc" class="btn" value="TermCondition" name="tc" data-toggle="modal" data-target="#myModal3" style="padding:2px"> TERM AND CONDITIONS </a>
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please set Agree</b>
                             </section>
                         </div>
@@ -251,7 +249,7 @@
                         <div class="row">
                             <div class="col-md-5" style="margin-left: 15px;">
                                 <div class="sigPad" id="driverSinature" style="width:404px;">
-                                    <h2>Driver signature</h2>
+                                    <h2>Partner signature</h2>
                                     <ul class="sigNav">
                                         <li class="drawIt"><a href="#draw-it">Draw It</a></li>
                                         <li class="clearButton"><a href="#clear">Clear</a></li>
@@ -519,7 +517,7 @@
                             <h4 class="modal-title" id="myModalLabe2">Possessions</h4>
                         </div>
                         <div class="modal-body">
-                            @using (Ajax.BeginForm("Create", "VehiclesImages", @Model.VehicleID, new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }, new { enctype = "multipart/form-data" }))
+                            @using (Ajax.BeginForm("CreateVehicleImage", "Possessions", @Model.VehicleID, new System.Web.Mvc.Ajax.AjaxOptions { OnFailure = "Failure", OnSuccess = "OnSuccess" }, new { enctype = "multipart/form-data" }))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -569,7 +567,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>YOU ACKNOWLEDGE THAT YOU HAVE RECEIVED AND UNDERSTOOD THE TERMS AND CONDITIONS OF RENTAL AGREEMENT, YOU AUTHORISE MIR FLEET TO CHARGE ALL UNPAID MONIES DUE TO THE CREDIT CARD PROVIDED ON THE RENTAL AGREEMENT OR ANY OTHER CHARGE ACCOUNT PROVIDED TO SETTLE ANY CHARGES AND OBLIGATIONS PAYABLE ON THIS RENTAL AGREEMENT.</td>
+                                        <td>YOU ACKNOWLEDGE THAT YOU HAVE RECEIVED AND UNDERSTOOD THE TERMS AND CONDITIONS OF RENTAL AGREEMENT, YOU AUTHORISE STALLION MOTORS TO CHARGE ALL UNPAID MONIES DUE TO THE CREDIT CARD PROVIDED ON THE RENTAL AGREEMENT OR ANY OTHER CHARGE ACCOUNT PROVIDED TO SETTLE ANY CHARGES AND OBLIGATIONS PAYABLE ON THIS RENTAL AGREEMENT.</td>
                                         <td>
                                             <ul>
                                                 <li> NO ADDITIONAL DRIVERS ALLOWED ON THIS VEHICLE.</li>
@@ -623,8 +621,7 @@
         $(selector).chosen(config[selector]);
     }
 
-    $("#driverList").change(function () {
-        debugger;
+    $("#driverList").change(function () {       
         var driverIdVal = $('#driverList').val();
         var driverIdVal = $('#driverList').val();
 
@@ -636,7 +633,7 @@
             dataType: "json",
             success: function (data) {
                 $('#dGivenName').val(data.GivenName);
-                $('#dMiddleName').val(data.MiddleName);
+                $('#dSurName').val(data.SurName);
                 $('#dAddress').val(data.Address);
                 $('#dMobileNo').val(data.MobileNo);
                 $('#dLicenceNo').val(data.LicenceNo);
@@ -670,7 +667,7 @@
                 $('#vehicleModel').val(data.Model);
                 $('#vehicleYear').val(data.Year);
                 $('#vehicleColor').val(data.Color);
-                $('#vehicleFirstODOMeterReading').val(data.FirstODOMeterReading);
+                $('#vehicleLastODOMeterReading').val(data.LastODOMeterReading);
                 $('#vehicleEngineServiceDueKM').val(data.EngineServiceDueKM);
                 $('#ETagHolder').prop('checked', data.ETagHolder);
                 $('#FootMatts').prop('checked', data.FootMatts);
@@ -684,6 +681,14 @@
                         "<td>" + '<img src=' + item.ImagePath + ' alt="image" width="150px" class="img-thumbnail" />' + "</td></tr>";
                 });
                 $("#vehicleIssuesList").html(row);
+
+                var row2 = "<tr><th>Id #</th><th>Image</th></tr>";
+                $.each(data.vehicleImages, function (index, item) {
+
+                    row2 += "<tr><td>" + (index + 1) + "</td>" +                      
+                        "<td>" + '<img src=' + item.ImagePath + ' alt="image" width="150px" class="img-thumbnail" />' + "</td></tr>";
+                });
+                $("#vehicleImagesList").html(row2);
             },
             error: function () { alert('fail'); }
         });
@@ -715,7 +720,7 @@
             dataType: "json",
             success: function (data) {
                 $('#dGivenName').val(data.GivenName);
-                $('#dMiddleName').val(data.MiddleName);
+                $('#dSurName').val(data.SurName);
                 $('#dAddress').val(data.Address);
                 $('#dMobileNo').val(data.MobileNo);
                 $('#dLicenceNo').val(data.LicenceNo);
@@ -745,7 +750,7 @@
                 $('#vehicleModel').val(data.Model);
                 $('#vehicleYear').val(data.Year);
                 $('#vehicleColor').val(data.Color);
-                $('#vehicleFirstODOMeterReading').val(data.FirstODOMeterReading);
+                $('#vehicleLastODOMeterReading').val(data.LastODOMeterReading);
                 $('#vehicleEngineServiceDueKM').val(data.EngineServiceDueKM);
                 $('#ETagHolder').prop('checked', data.ETagHolder);
                 $('#FootMatts').prop('checked', data.FootMatts);
@@ -758,6 +763,14 @@
                         "<td>" + '<img src=' + item.ImagePath + ' alt="image" width="100px"/>' + "</td></tr>";
                 });
                 $("#vehicleIssuesList").html(row);
+
+                var row2 = "<tr><th>Id #</th><th>Image</th></tr>";
+                $.each(data.vehicleImages, function (index, item) {
+
+                    row2 += "<tr><td>" + (index + 1) + "</td>" +
+                        "<td>" + '<img src=' + item.ImagePath + ' alt="image" width="150px" class="img-thumbnail" />' + "</td></tr>";
+                });
+                $("#vehicleImagesList").html(row2);
             },
             error: function () { alert('fail'); }
         });

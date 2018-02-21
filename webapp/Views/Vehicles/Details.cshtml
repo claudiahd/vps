@@ -1,8 +1,7 @@
-﻿@model VPS.Models.DTOs.MyVehicle
+﻿@model VPS.Models.DTOs.VehicleDto
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -29,7 +28,7 @@
         <!-- col -->
         <div class="row">
             <div class="col-xs-12 text-left margin-left-10">
-                @Html.ActionLink("  Edit", "Edit", new { id = Model.VehicleID }, new { @class = "txt-color-white btn btn-primary btn-lg fa fa-edit" })                                
+                @Html.ActionLink("  Edit", "Edit", new { id = Model.VehicleID }, new { @class = "txt-color-white btn btn-primary btn-lg fa fa-edit" })
                 @Html.ActionLink(" Back to List", "Index", null, null, new { @class = "txt-color-white btn btn-danger btn-lg fa fa-backward" })
             </div>
         </div>
@@ -80,7 +79,7 @@
                                                             {
                                                                 <div class="item active">
                                                                     <img src=@item.ImagePath alt="">
-                                                                    <div class="col-xs-12 text-center">                                                                        
+                                                                    <div class="col-xs-12 text-center">
                                                                         @Html.ActionLink("  Detail", "Details", "VehiclesImages", new { id = item.VehicleImageID }, new { @class = "txt-color-blue btn-link fa fa-info" })
                                                                         <span> | </span>
                                                                         @Html.ActionLink("  All", "Index", "VehiclesImages", new { id = item.VehicleID }, new { @class = "txt-color-blue btn-link fa fa-list" })
@@ -92,7 +91,7 @@
                                                             {
                                                                 <div class="item">
                                                                     <img src=@item.ImagePath alt="">
-                                                                    <div class="col-xs-12 text-center">                                                                        
+                                                                    <div class="col-xs-12 text-center">
                                                                         @Html.ActionLink("  Detail", "Details", "VehiclesImages", new { id = item.VehicleImageID }, new { @class = "txt-color-blue btn-link fa fa-info" })
                                                                         <span> | </span>
                                                                         @Html.ActionLink("  All", "Index", "VehiclesImages", new { id = item.VehicleID }, new { @class = "txt-color-blue btn-link fa fa-list" })
@@ -207,7 +206,20 @@
                                     </tr>
                                     <tr>
                                         <td class="txt-color-blue">Registration Expiry: </td>
-                                        <td>@Model.RegistrationExpiryDate.GetValueOrDefault().ToShortDateString()</td>
+                                        <td>@Model.RegoExpiryDate.GetValueOrDefault().ToShortDateString()</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-blue">Active </td>
+                                        <td>
+                                            @if (@Model.Active != null && @Model.Active == true)
+                                            {
+                                                <span>Yes - Active Vehicle</span>
+                                            }
+                                            else
+                                            {
+                                                <span>No - Inactive Vehicle</span>
+                                            }
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -225,17 +237,10 @@
 
                             <div class="certified">
                                 <ul>
-                                    <li><a href="javascript:void(0);">Service Due - Engine<span>@Model.EngineServiceDueKM km</span></a></li>
+                                    <li><a href="javascript:void(0);">Service Due - Engine <span>@Model.EngineServiceDueKM km</span></a></li>
                                     <li><a href="javascript:void(0);">Service Due - Transmission<span>@Model.EngineServiceDueKM km</span></a></li>
                                 </ul>
-                            </div>
-                            <hr>
-                            <div class="tab-pane fade active in" id="more-information">
-                                <br>
-                                <strong>Details</strong>
-                                <p>@Model.Details</p>
-                            </div>
-                            <hr>
+                            </div>                            
                         </div>
                     </div>
                 </div>

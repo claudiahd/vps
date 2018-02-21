@@ -1,4 +1,4 @@
-﻿@model VPS.Models.DTOs.MyPossession
+﻿@model VPS.Models.DTOs.PossessionDto
 
 @{
     ViewBag.Title = "ReturnPossession";
@@ -31,6 +31,10 @@
                                                 <td></td>
                                             </tr>
                                             <tr>
+                                                <td class="txt-color-blue">Driver Name: </td>
+                                                <td>@Model.DriversName</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="txt-color-blue">Registration: </td>
                                                 <td>@Model.RegistrationNo</td>
                                             </tr>
@@ -43,11 +47,46 @@
                                                 <td>@Model.PossessionTime</td>
                                             </tr>
                                             <tr>
-                                                <td class="txt-color-blue">ODOMeter Possission Time: </td>
+                                                <td class="txt-color-blue">ODOMeter Possession Time: </td>
                                                 <td>@Model.ODOMeterPossissionTime (KM)</td>
                                             </tr>
                                             <tr>
-                                                <td class="txt-color-blue">Cleanliness Possission Time: </td>
+                                                <td class="txt-color-blue">Engine Service Due: </td>
+                                                <td>@Model.EngineServiceDuePossissionTime (KM)</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="txt-color-blue">Transmission Service Due: </td>
+                                                <td>@Model.TransmissionServiceDuePossissionTime (KM)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">ETag Possession Time: </td>
+                                                <td>
+                                                    @if (Model.ETagHolderPossissionTime)
+                                                    {
+                                                        <span>Yes</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Footmatts Possession Time: </td>
+                                                <td>
+                                                    @if (Model.FootMattsPossissionTime)
+                                                    {
+                                                        <span>Yes</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-color-blue">Cleanliness Possession Time: </td>
                                                 <td>
                                                     @if (Model.CleanlinessPossissionTime)
                                                     {
@@ -59,20 +98,9 @@
                                                     }
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="txt-color-blue">Service Due - Engine: </td>
-                                                <td>@Model.EngineServiceDuePossissionTime (KM)</td>
-                                            </tr>
+                                            
 
-                                            <tr>
-                                                <td class="txt-color-blue">Service Due - Transmission: </td>
-                                                <td>@Model.TransmissionServiceDuePossissionTime (KM)</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="txt-color-blue">Driver Name: </td>
-                                                <td>@Model.DriversName</td>
-                                            </tr>
+                                         
                                             <tr>
                                                 <td class="txt-color-blue">Possession Through: </td>
                                                 <td>@Model.PossessionByName</td>
@@ -104,7 +132,7 @@
                                 <span>Return Date</span>
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>
-                                    <input type="text" data-format="dd/mm/yy" name="ReturnDate" id="ReturnDate" required="">
+                                    <input type="date" data-format="dd/mm/yy" name="ReturnDate" id="ReturnDate" required="">
                                     @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
                                 </label>
                             </section>
@@ -127,6 +155,14 @@
                                 </label>
                             </section>
 
+                            <section class="clearfix">
+                                <label class="label col-sm-12">@Html.LabelFor(model => model.ServiceDue) </label>
+                                <label class="input col-sm-12">
+                                    <i class="icon-append fa fa-user"></i>
+                                    <input type="number" name="ServiceDue" id="ServiceDue" value="" required="">
+                                    @Html.ValidationMessageFor(model => model.ServiceDue, "", new { @class = "text-danger" })
+                                </label>
+                            </section>
 
                             <section>
                                 @Html.LabelFor(model => model.ETagHolderReturn, htmlAttributes: new { @class = "lable" })
@@ -179,7 +215,7 @@
 </div>
 
 @section pagespecific{
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
         // START AND FINISH DATE
         $('#ReturnDate').datepicker({
@@ -187,7 +223,7 @@
             prevText: '<i class="fa fa-chevron-left"></i>',
             nextText: '<i class="fa fa-chevron-right"></i>'
         });
-    </script>
+    </script>*@
 
     <script type="text/javascript">
         $(function () {

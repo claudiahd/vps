@@ -21,7 +21,7 @@ namespace VPS.Models.DTOs
                 this.Color = vehicle.Color;
                 this.Make = vehicle.Make;
                 this.Model = vehicle.Model;
-                this.RegistrationExpiryDate = vehicle.RegistrationExpiryDate;
+                this.RegoExpiryDate = this.RegistrationExpiryDate = vehicle.RegistrationExpiryDate.Value.Date;
                 this.FirstODOMeterReading = vehicle.FirstODOMeterReading;
                 this.LastODOMeterReading = vehicle.LastODOMeterReading;
                 this.EngineServiceDueKM = vehicle.EngineServiceDueKM;
@@ -48,11 +48,16 @@ namespace VPS.Models.DTOs
         [StringLength(7, ErrorMessage = "cannot be longer than 7 characters.")]
         public string RegistrationNo { get; set; }
 
-        [Required]        
+        [Required]
         [Display(Name = "Rego Expiry Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date)]
         public Nullable<DateTime> RegistrationExpiryDate { get; set; }
+       
+        [Display(Name = "Rego Expiry Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DataType(DataType.Date)]
+        public Nullable<DateTime> RegoExpiryDate { get; set; }
 
         [Display(Name = "Make")]
         public string Make { get; set; }
