@@ -114,6 +114,12 @@ namespace VPS.Controllers
             string from = Request.QueryString["from"];
             if (ModelState.IsValid)
             {
+                if(db.Drivers.FirstOrDefaultAsync(d=> d.LicenceNo == myDriver.LicenceNo && d.DateOfBirth == myDriver.DateOfBirth) !=null)
+                {
+                    ModelState.AddModelError("LicenceNo", "Driver with same Licence Number or Date of Birth exist");
+                    return View(myDriver);
+                }
+
                 Drivers dbDrivers = new Drivers();
                 dbDrivers.GivenName = myDriver.GivenName;
                 dbDrivers.MiddleName = myDriver.MiddleName;
